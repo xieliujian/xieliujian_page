@@ -1,0 +1,430 @@
+#region 程序集 Debugger, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+// E:\proj_dl\develop\client\project\Assets\LingRen\Plugins\Engine\Debugger.dll
+// Decompiled with ICSharpCode.Decompiler 8.1.1.7464
+#endregion
+
+using System;
+using System.Diagnostics;
+using UnityEngine;
+
+public class Debugger
+{
+    public delegate void OnFatalDelegate(string message);
+
+    public delegate void OnAssertFailDelegate(string message);
+
+    public static bool isLogException = true;
+
+    public static bool isLogError = true;
+
+    public static bool isLogInfo = true;
+
+    public static bool isLogWarning = true;
+
+    public static bool isLogDebug = true;
+
+    public static OnFatalDelegate onFatalDelegate { get; set; }
+
+    public static OnAssertFailDelegate onAssertFailDelegate { get; set; }
+
+    public static bool writeToConsole { get; set; }
+
+    public static void SetAllIsLog(bool isLog)
+    {
+        isLogException = isLog;
+        isLogError = isLog;
+        isLogInfo = isLog;
+        isLogWarning = isLog;
+        isLogDebug = isLog;
+    }
+
+    public static void LogDebug(object message)
+    {
+        if (isLogDebug)
+        {
+            if (writeToConsole)
+            {
+                Console.WriteLine(message.ToString());
+            }
+
+            Debug.Log(message);
+        }
+    }
+
+    public static void LogDebugF(object message, params object[] args)
+    {
+        if (isLogDebug)
+        {
+            LogDebug(string.Format(message.ToString(), args));
+        }
+    }
+
+    public static void LogInfo(object message)
+    {
+        if (isLogInfo)
+        {
+            if (writeToConsole)
+            {
+                Console.WriteLine(message.ToString());
+            }
+
+            Debug.Log(message);
+        }
+    }
+
+    public static void LogInfoF(object message, params object[] args)
+    {
+        if (isLogInfo)
+        {
+            LogInfo(string.Format(message.ToString(), args));
+        }
+    }
+
+    public static void LogWarning(object message)
+    {
+        if (isLogWarning)
+        {
+            if (writeToConsole)
+            {
+                Console.WriteLine(message.ToString());
+            }
+
+            Debug.LogWarning(message);
+        }
+    }
+
+    public static void LogWarningF(object message, params object[] args)
+    {
+        if (isLogWarning)
+        {
+            LogWarning(string.Format(message.ToString(), args));
+        }
+    }
+
+    public static void LogError(object message)
+    {
+        if (isLogError)
+        {
+            if (writeToConsole)
+            {
+                Console.WriteLine(message.ToString());
+            }
+
+            Debug.LogError(message);
+        }
+    }
+
+    public static void LogErrorF(object message, params object[] args)
+    {
+        if (isLogError)
+        {
+            LogError(string.Format(message.ToString(), args));
+        }
+    }
+
+    public static void LogException(Exception ex)
+    {
+        if (isLogException)
+        {
+            if (writeToConsole)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+            Debug.LogException(ex);
+        }
+    }
+
+    public static void LogFatal(object message)
+    {
+        if (isLogException)
+        {
+            if (writeToConsole)
+            {
+                Console.WriteLine(message.ToString());
+            }
+
+            Debug.LogError(message);
+            if (onFatalDelegate != null)
+            {
+                onFatalDelegate(message.ToString());
+            }
+        }
+    }
+
+    public static void LogFatalF(object message, params object[] args)
+    {
+        if (isLogException)
+        {
+            LogFatal(string.Format(message.ToString(), args));
+        }
+    }
+
+    [Conditional("DEBUG")]
+    public static void Assert(bool condition)
+    {
+        if (!condition && onAssertFailDelegate != null)
+        {
+            onAssertFailDelegate(string.Empty);
+        }
+    }
+
+    [Conditional("DEBUG")]
+    public static void Assert(bool condition, string message)
+    {
+        if (!condition && onAssertFailDelegate != null)
+        {
+            if (string.IsNullOrEmpty(message))
+            {
+                onAssertFailDelegate(string.Empty);
+            }
+            else
+            {
+                onAssertFailDelegate(message);
+            }
+        }
+    }
+}
+#if false // 反编译日志
+缓存中的 233 项
+------------------
+解析: "mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+找到单个程序集: "mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+从以下位置加载: "C:\Program Files\Unity 2020.3.42f1\Editor\Data\MonoBleedingEdge\lib\mono\4.7.1-api\mscorlib.dll"
+------------------
+解析: "UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+找到单个程序集: "UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+从以下位置加载: "C:\Program Files\Unity 2020.3.42f1\Editor\Data\Managed\UnityEngine\UnityEngine.dll"
+------------------
+解析: "UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+找到单个程序集: "UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+从以下位置加载: "C:\Program Files\Unity 2020.3.42f1\Editor\Data\Managed\UnityEngine\UnityEngine.CoreModule.dll"
+------------------
+解析: "UnityEngine.DSPGraphModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+找到单个程序集: "UnityEngine.DSPGraphModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+从以下位置加载: "C:\Program Files\Unity 2020.3.42f1\Editor\Data\Managed\UnityEngine\UnityEngine.DSPGraphModule.dll"
+------------------
+解析: "UnityEngine.AudioModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+找到单个程序集: "UnityEngine.AudioModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+从以下位置加载: "C:\Program Files\Unity 2020.3.42f1\Editor\Data\Managed\UnityEngine\UnityEngine.AudioModule.dll"
+------------------
+解析: "UnityEngine.UnityCurlModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+找到单个程序集: "UnityEngine.UnityCurlModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+从以下位置加载: "C:\Program Files\Unity 2020.3.42f1\Editor\Data\Managed\UnityEngine\UnityEngine.UnityCurlModule.dll"
+------------------
+解析: "UnityEngine.TLSModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+找到单个程序集: "UnityEngine.TLSModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+从以下位置加载: "C:\Program Files\Unity 2020.3.42f1\Editor\Data\Managed\UnityEngine\UnityEngine.TLSModule.dll"
+------------------
+解析: "UnityEngine.UIElementsModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+找到单个程序集: "UnityEngine.UIElementsModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+从以下位置加载: "C:\Program Files\Unity 2020.3.42f1\Editor\Data\Managed\UnityEngine\UnityEngine.UIElementsModule.dll"
+------------------
+解析: "UnityEngine.AndroidJNIModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+找到单个程序集: "UnityEngine.AndroidJNIModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+从以下位置加载: "C:\Program Files\Unity 2020.3.42f1\Editor\Data\Managed\UnityEngine\UnityEngine.AndroidJNIModule.dll"
+------------------
+解析: "UnityEngine.InputLegacyModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+找到单个程序集: "UnityEngine.InputLegacyModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+从以下位置加载: "C:\Program Files\Unity 2020.3.42f1\Editor\Data\Managed\UnityEngine\UnityEngine.InputLegacyModule.dll"
+------------------
+解析: "UnityEngine.AccessibilityModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+找到单个程序集: "UnityEngine.AccessibilityModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+从以下位置加载: "C:\Program Files\Unity 2020.3.42f1\Editor\Data\Managed\UnityEngine\UnityEngine.AccessibilityModule.dll"
+------------------
+解析: "UnityEngine.UIModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+找到单个程序集: "UnityEngine.UIModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+从以下位置加载: "C:\Program Files\Unity 2020.3.42f1\Editor\Data\Managed\UnityEngine\UnityEngine.UIModule.dll"
+------------------
+解析: "UnityEngine.UnityConnectModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+找到单个程序集: "UnityEngine.UnityConnectModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+从以下位置加载: "C:\Program Files\Unity 2020.3.42f1\Editor\Data\Managed\UnityEngine\UnityEngine.UnityConnectModule.dll"
+------------------
+解析: "UnityEngine.AIModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+找到单个程序集: "UnityEngine.AIModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+从以下位置加载: "C:\Program Files\Unity 2020.3.42f1\Editor\Data\Managed\UnityEngine\UnityEngine.AIModule.dll"
+------------------
+解析: "UnityEngine.UnityAnalyticsModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+找到单个程序集: "UnityEngine.UnityAnalyticsModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+从以下位置加载: "C:\Program Files\Unity 2020.3.42f1\Editor\Data\Managed\UnityEngine\UnityEngine.UnityAnalyticsModule.dll"
+------------------
+解析: "UnityEngine.UnityAnalyticsCommonModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+找到单个程序集: "UnityEngine.UnityAnalyticsCommonModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+从以下位置加载: "C:\Program Files\Unity 2020.3.42f1\Editor\Data\Managed\UnityEngine\UnityEngine.UnityAnalyticsCommonModule.dll"
+------------------
+解析: "UnityEngine.PerformanceReportingModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+找到单个程序集: "UnityEngine.PerformanceReportingModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+从以下位置加载: "C:\Program Files\Unity 2020.3.42f1\Editor\Data\Managed\UnityEngine\UnityEngine.PerformanceReportingModule.dll"
+------------------
+解析: "UnityEngine.Physics2DModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+找到单个程序集: "UnityEngine.Physics2DModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+从以下位置加载: "C:\Program Files\Unity 2020.3.42f1\Editor\Data\Managed\UnityEngine\UnityEngine.Physics2DModule.dll"
+------------------
+解析: "UnityEngine.AnimationModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+找到单个程序集: "UnityEngine.AnimationModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+从以下位置加载: "C:\Program Files\Unity 2020.3.42f1\Editor\Data\Managed\UnityEngine\UnityEngine.AnimationModule.dll"
+------------------
+解析: "UnityEngine.PhysicsModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+找到单个程序集: "UnityEngine.PhysicsModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+从以下位置加载: "C:\Program Files\Unity 2020.3.42f1\Editor\Data\Managed\UnityEngine\UnityEngine.PhysicsModule.dll"
+------------------
+解析: "UnityEngine.AssetBundleModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+找到单个程序集: "UnityEngine.AssetBundleModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+从以下位置加载: "C:\Program Files\Unity 2020.3.42f1\Editor\Data\Managed\UnityEngine\UnityEngine.AssetBundleModule.dll"
+------------------
+解析: "UnityEngine.SharedInternalsModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+找到单个程序集: "UnityEngine.SharedInternalsModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+从以下位置加载: "C:\Program Files\Unity 2020.3.42f1\Editor\Data\Managed\UnityEngine\UnityEngine.SharedInternalsModule.dll"
+------------------
+解析: "UnityEngine.TextRenderingModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+找到单个程序集: "UnityEngine.TextRenderingModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+从以下位置加载: "C:\Program Files\Unity 2020.3.42f1\Editor\Data\Managed\UnityEngine\UnityEngine.TextRenderingModule.dll"
+------------------
+解析: "UnityEngine.ClothModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+找到单个程序集: "UnityEngine.ClothModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+从以下位置加载: "C:\Program Files\Unity 2020.3.42f1\Editor\Data\Managed\UnityEngine\UnityEngine.ClothModule.dll"
+------------------
+解析: "UnityEngine.ClusterInputModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+找到单个程序集: "UnityEngine.ClusterInputModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+从以下位置加载: "C:\Program Files\Unity 2020.3.42f1\Editor\Data\Managed\UnityEngine\UnityEngine.ClusterInputModule.dll"
+------------------
+解析: "UnityEngine.ClusterRendererModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+找到单个程序集: "UnityEngine.ClusterRendererModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+从以下位置加载: "C:\Program Files\Unity 2020.3.42f1\Editor\Data\Managed\UnityEngine\UnityEngine.ClusterRendererModule.dll"
+------------------
+解析: "UnityEngine.CrashReportingModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+找到单个程序集: "UnityEngine.CrashReportingModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+从以下位置加载: "C:\Program Files\Unity 2020.3.42f1\Editor\Data\Managed\UnityEngine\UnityEngine.CrashReportingModule.dll"
+------------------
+解析: "UnityEngine.TilemapModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+找到单个程序集: "UnityEngine.TilemapModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+从以下位置加载: "C:\Program Files\Unity 2020.3.42f1\Editor\Data\Managed\UnityEngine\UnityEngine.TilemapModule.dll"
+------------------
+解析: "UnityEngine.TerrainModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+找到单个程序集: "UnityEngine.TerrainModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+从以下位置加载: "C:\Program Files\Unity 2020.3.42f1\Editor\Data\Managed\UnityEngine\UnityEngine.TerrainModule.dll"
+------------------
+解析: "UnityEngine.IMGUIModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+找到单个程序集: "UnityEngine.IMGUIModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+从以下位置加载: "C:\Program Files\Unity 2020.3.42f1\Editor\Data\Managed\UnityEngine\UnityEngine.IMGUIModule.dll"
+------------------
+解析: "UnityEngine.VFXModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+找到单个程序集: "UnityEngine.VFXModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+从以下位置加载: "C:\Program Files\Unity 2020.3.42f1\Editor\Data\Managed\UnityEngine\UnityEngine.VFXModule.dll"
+------------------
+解析: "UnityEngine.VideoModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+找到单个程序集: "UnityEngine.VideoModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+从以下位置加载: "C:\Program Files\Unity 2020.3.42f1\Editor\Data\Managed\UnityEngine\UnityEngine.VideoModule.dll"
+------------------
+解析: "UnityEngine.VRModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+找到单个程序集: "UnityEngine.VRModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+从以下位置加载: "C:\Program Files\Unity 2020.3.42f1\Editor\Data\Managed\UnityEngine\UnityEngine.VRModule.dll"
+------------------
+解析: "UnityEngine.GridModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+找到单个程序集: "UnityEngine.GridModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+从以下位置加载: "C:\Program Files\Unity 2020.3.42f1\Editor\Data\Managed\UnityEngine\UnityEngine.GridModule.dll"
+------------------
+解析: "UnityEngine.ImageConversionModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+找到单个程序集: "UnityEngine.ImageConversionModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+从以下位置加载: "C:\Program Files\Unity 2020.3.42f1\Editor\Data\Managed\UnityEngine\UnityEngine.ImageConversionModule.dll"
+------------------
+解析: "UnityEngine.SubsystemsModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+找到单个程序集: "UnityEngine.SubsystemsModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+从以下位置加载: "C:\Program Files\Unity 2020.3.42f1\Editor\Data\Managed\UnityEngine\UnityEngine.SubsystemsModule.dll"
+------------------
+解析: "UnityEngine.JSONSerializeModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+找到单个程序集: "UnityEngine.JSONSerializeModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+从以下位置加载: "C:\Program Files\Unity 2020.3.42f1\Editor\Data\Managed\UnityEngine\UnityEngine.JSONSerializeModule.dll"
+------------------
+解析: "UnityEngine.LocalizationModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+找到单个程序集: "UnityEngine.LocalizationModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+从以下位置加载: "C:\Program Files\Unity 2020.3.42f1\Editor\Data\Managed\UnityEngine\UnityEngine.LocalizationModule.dll"
+------------------
+解析: "UnityEngine.UnityWebRequestModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+找到单个程序集: "UnityEngine.UnityWebRequestModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+从以下位置加载: "C:\Program Files\Unity 2020.3.42f1\Editor\Data\Managed\UnityEngine\UnityEngine.UnityWebRequestModule.dll"
+------------------
+解析: "UnityEngine.UNETModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+找到单个程序集: "UnityEngine.UNETModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+从以下位置加载: "C:\Program Files\Unity 2020.3.42f1\Editor\Data\Managed\UnityEngine\UnityEngine.UNETModule.dll"
+------------------
+解析: "UnityEngine.UnityWebRequestAssetBundleModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+找到单个程序集: "UnityEngine.UnityWebRequestAssetBundleModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+从以下位置加载: "C:\Program Files\Unity 2020.3.42f1\Editor\Data\Managed\UnityEngine\UnityEngine.UnityWebRequestAssetBundleModule.dll"
+------------------
+解析: "UnityEngine.UnityWebRequestAudioModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+找到单个程序集: "UnityEngine.UnityWebRequestAudioModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+从以下位置加载: "C:\Program Files\Unity 2020.3.42f1\Editor\Data\Managed\UnityEngine\UnityEngine.UnityWebRequestAudioModule.dll"
+------------------
+解析: "UnityEngine.UnityWebRequestTextureModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+找到单个程序集: "UnityEngine.UnityWebRequestTextureModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+从以下位置加载: "C:\Program Files\Unity 2020.3.42f1\Editor\Data\Managed\UnityEngine\UnityEngine.UnityWebRequestTextureModule.dll"
+------------------
+解析: "UnityEngine.UnityWebRequestWWWModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+找到单个程序集: "UnityEngine.UnityWebRequestWWWModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+从以下位置加载: "C:\Program Files\Unity 2020.3.42f1\Editor\Data\Managed\UnityEngine\UnityEngine.UnityWebRequestWWWModule.dll"
+------------------
+解析: "UnityEngine.ParticleSystemModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+找到单个程序集: "UnityEngine.ParticleSystemModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+从以下位置加载: "C:\Program Files\Unity 2020.3.42f1\Editor\Data\Managed\UnityEngine\UnityEngine.ParticleSystemModule.dll"
+------------------
+解析: "UnityEngine.DirectorModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+找到单个程序集: "UnityEngine.DirectorModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+从以下位置加载: "C:\Program Files\Unity 2020.3.42f1\Editor\Data\Managed\UnityEngine\UnityEngine.DirectorModule.dll"
+------------------
+解析: "UnityEngine.VirtualTexturingModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+找到单个程序集: "UnityEngine.VirtualTexturingModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+从以下位置加载: "C:\Program Files\Unity 2020.3.42f1\Editor\Data\Managed\UnityEngine\UnityEngine.VirtualTexturingModule.dll"
+------------------
+解析: "UnityEngine.ScreenCaptureModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+找到单个程序集: "UnityEngine.ScreenCaptureModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+从以下位置加载: "C:\Program Files\Unity 2020.3.42f1\Editor\Data\Managed\UnityEngine\UnityEngine.ScreenCaptureModule.dll"
+------------------
+解析: "UnityEngine.GameCenterModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+找到单个程序集: "UnityEngine.GameCenterModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+从以下位置加载: "C:\Program Files\Unity 2020.3.42f1\Editor\Data\Managed\UnityEngine\UnityEngine.GameCenterModule.dll"
+------------------
+解析: "UnityEngine.SpriteMaskModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+找到单个程序集: "UnityEngine.SpriteMaskModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+从以下位置加载: "C:\Program Files\Unity 2020.3.42f1\Editor\Data\Managed\UnityEngine\UnityEngine.SpriteMaskModule.dll"
+------------------
+解析: "UnityEngine.StreamingModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+找到单个程序集: "UnityEngine.StreamingModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+从以下位置加载: "C:\Program Files\Unity 2020.3.42f1\Editor\Data\Managed\UnityEngine\UnityEngine.StreamingModule.dll"
+------------------
+解析: "UnityEngine.TerrainPhysicsModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+找到单个程序集: "UnityEngine.TerrainPhysicsModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+从以下位置加载: "C:\Program Files\Unity 2020.3.42f1\Editor\Data\Managed\UnityEngine\UnityEngine.TerrainPhysicsModule.dll"
+------------------
+解析: "UnityEngine.TextCoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+找到单个程序集: "UnityEngine.TextCoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+从以下位置加载: "C:\Program Files\Unity 2020.3.42f1\Editor\Data\Managed\UnityEngine\UnityEngine.TextCoreModule.dll"
+------------------
+解析: "UnityEngine.SpriteShapeModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+找到单个程序集: "UnityEngine.SpriteShapeModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+从以下位置加载: "C:\Program Files\Unity 2020.3.42f1\Editor\Data\Managed\UnityEngine\UnityEngine.SpriteShapeModule.dll"
+------------------
+解析: "UnityEngine.UIElementsNativeModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+找到单个程序集: "UnityEngine.UIElementsNativeModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+从以下位置加载: "C:\Program Files\Unity 2020.3.42f1\Editor\Data\Managed\UnityEngine\UnityEngine.UIElementsNativeModule.dll"
+------------------
+解析: "UnityEngine.VehiclesModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+找到单个程序集: "UnityEngine.VehiclesModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+从以下位置加载: "C:\Program Files\Unity 2020.3.42f1\Editor\Data\Managed\UnityEngine\UnityEngine.VehiclesModule.dll"
+------------------
+解析: "UnityEngine.WindModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+找到单个程序集: "UnityEngine.WindModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+从以下位置加载: "C:\Program Files\Unity 2020.3.42f1\Editor\Data\Managed\UnityEngine\UnityEngine.WindModule.dll"
+------------------
+解析: "UnityEngine.XRModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+找到单个程序集: "UnityEngine.XRModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+从以下位置加载: "C:\Program Files\Unity 2020.3.42f1\Editor\Data\Managed\UnityEngine\UnityEngine.XRModule.dll"
+------------------
+解析: "UnityEngine.ARModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+找到单个程序集: "UnityEngine.ARModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+从以下位置加载: "C:\Program Files\Unity 2020.3.42f1\Editor\Data\Managed\UnityEngine\UnityEngine.ARModule.dll"
+------------------
+解析: "UnityEngine.InputModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+找到单个程序集: "UnityEngine.InputModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+从以下位置加载: "C:\Program Files\Unity 2020.3.42f1\Editor\Data\Managed\UnityEngine\UnityEngine.InputModule.dll"
+#endif
