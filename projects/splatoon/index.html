@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>喷射战士 Demo — xieliujian</title>
+  <link rel="stylesheet" href="../../style.css" />
+  <style>
+    .project-detail {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 3rem 2rem 5rem;
+    }
+
+    /* ── 标题区 ── */
+    .detail-header { margin-bottom: 2rem; }
+    .detail-header h1 { font-size: 2rem; font-weight: 800; margin-bottom: 0.5rem; }
+    .detail-header .subtitle { color: var(--text-muted); font-size: 0.95rem; margin-bottom: 1.25rem; }
+    .detail-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      align-items: center;
+      margin-bottom: 1.5rem;
+    }
+    .tag {
+      font-size: 0.75rem;
+      padding: 0.2rem 0.65rem;
+      border-radius: 4px;
+      background: rgba(88,166,255,0.12);
+      color: var(--accent);
+    }
+    .detail-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+    }
+    .btn-lg {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.55rem 1.2rem;
+      border-radius: 8px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      text-decoration: none;
+      border: 1px solid var(--border);
+      transition: border-color 0.2s, background 0.2s, color 0.2s;
+    }
+    .btn-lg.primary {
+      background: var(--accent);
+      color: #0d1117;
+      border-color: var(--accent);
+    }
+    .btn-lg.primary:hover { background: var(--accent-hover); border-color: var(--accent-hover); color: #0d1117; }
+    .btn-lg.secondary { color: var(--text-muted); background: transparent; }
+    .btn-lg.secondary:hover { border-color: var(--accent); color: var(--accent); }
+
+    /* ── 视频占位区（嵌入知乎） ── */
+    .video-banner {
+      width: 100%;
+      aspect-ratio: 16/9;
+      background: #0d1117;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      margin-bottom: 2.5rem;
+      text-decoration: none;
+      transition: border-color 0.2s;
+      position: relative;
+      overflow: hidden;
+    }
+    .video-banner:hover { border-color: var(--accent); }
+    .video-banner img.bg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.35;
+      filter: blur(2px);
+    }
+    .video-banner .overlay {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .play-btn {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background: rgba(88,166,255,0.9);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s, transform 0.2s;
+    }
+    .video-banner:hover .play-btn { background: var(--accent-hover); transform: scale(1.08); }
+    .play-btn svg { width: 28px; height: 28px; fill: #0d1117; margin-left: 4px; }
+    .video-banner .label {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--text);
+    }
+    .video-banner .label span { color: var(--text-muted); font-weight: 400; font-size: 0.8rem; }
+
+    /* ── 截图画廊 ── */
+    .section-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      padding-bottom: 0.4rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 0.75rem;
+      margin-bottom: 2.5rem;
+    }
+    .gallery-item {
+      border-radius: var(--radius);
+      overflow: hidden;
+      border: 1px solid var(--border);
+      cursor: pointer;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .gallery-item:hover { border-color: var(--accent); transform: translateY(-2px); }
+    .gallery-item img { width: 100%; aspect-ratio: 16/9; object-fit: cover; display: block; }
+
+    /* ── Lightbox ── */
+    .lightbox {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.88);
+      z-index: 999;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+    }
+    .lightbox.open { display: flex; }
+    .lightbox img {
+      max-width: 100%;
+      max-height: 90vh;
+      border-radius: var(--radius);
+      box-shadow: 0 8px 40px rgba(0,0,0,0.6);
+    }
+    .lightbox-close {
+      position: absolute;
+      top: 1rem;
+      right: 1.25rem;
+      font-size: 2rem;
+      color: #fff;
+      cursor: pointer;
+      line-height: 1;
+      opacity: 0.7;
+    }
+    .lightbox-close:hover { opacity: 1; }
+
+    /* ── 项目介绍 ── */
+    .desc-block {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.25rem 1.5rem;
+      line-height: 1.8;
+      font-size: 0.92rem;
+      color: var(--text-muted);
+      margin-bottom: 2.5rem;
+    }
+    .desc-block strong { color: var(--text); }
+  </style>
+</head>
+<body>
+
+  <nav class="navbar">
+    <a class="logo" href="../../">xieliujian</a>
+    <a class="back-link" href="../../">← 返回作品集</a>
+  </nav>
+
+  <div class="project-detail">
+
+    <!-- 标题 -->
+    <div class="detail-header">
+      <h1>喷射战士 Demo（UnityDemo_Splatoon）</h1>
+      <p class="subtitle">Unity 5 · 模拟 Nintendo Splatoon 喷漆染色机制</p>
+      <div class="detail-meta">
+        <span class="tag">Unity 5</span>
+        <span class="tag">C#</span>
+        <span class="tag">Shader</span>
+        <span class="tag">RenderTexture</span>
+        <span class="tag">⭐ 74</span>
+      </div>
+      <div class="detail-actions">
+        <a class="btn-lg primary" href="https://zhuanlan.zhihu.com/p/43050863" target="_blank" rel="noopener">
+          ▶ 查看演示视频（知乎）
+        </a>
+        <a class="btn-lg secondary" href="https://github.com/xieliujian/UnityDemo_Splatoon" target="_blank" rel="noopener">
+          GitHub 源码
+        </a>
+      </div>
+    </div>
+
+    <!-- 演示视频入口 -->
+    <a class="video-banner" href="https://zhuanlan.zhihu.com/p/43050863" target="_blank" rel="noopener">
+      <img class="bg" src="https://raw.githubusercontent.com/xieliujian/UnityDemo_Splatoon/master/Snapshot/paint1.png" alt="" />
+      <div class="overlay">
+        <div class="play-btn">
+          <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+        </div>
+        <div class="label">
+          点击观看演示视频<br>
+          <span>跳转至知乎文章 · zhuanlan.zhihu.com/p/43050863</span>
+        </div>
+      </div>
+    </a>
+
+    <!-- 截图画廊 -->
+    <div class="section-title">效果截图</div>
+    <div class="gallery">
+      <div class="gallery-item" onclick="openLightbox(this)">
+        <img src="https://raw.githubusercontent.com/xieliujian/UnityDemo_Splatoon/master/Snapshot/paint1.png" alt="截图 1" />
+      </div>
+      <div class="gallery-item" onclick="openLightbox(this)">
+        <img src="https://raw.githubusercontent.com/xieliujian/UnityDemo_Splatoon/master/Snapshot/paint2.png" alt="截图 2" />
+      </div>
+      <div class="gallery-item" onclick="openLightbox(this)">
+        <img src="https://raw.githubusercontent.com/xieliujian/UnityDemo_Splatoon/master/Snapshot/paint3.png" alt="截图 3" />
+      </div>
+    </div>
+
+    <!-- 项目介绍 -->
+    <div class="section-title">项目介绍</div>
+    <div class="desc-block">
+      <p>
+        本 Demo 使用 <strong>Unity 5</strong> 还原了任天堂主机游戏《喷射战士（Splatoon）》的核心染色机制。
+        玩家发射墨水时，通过 <strong>RenderTexture + Shader</strong> 将颜色实时绘制到场景地面与物体表面，
+        支持多颜色混合与遮罩检测，模型表面的染色范围可动态扩展。
+      </p>
+      <br>
+      <p>
+        核心技术点：<strong>世界空间 UV 投影</strong>、<strong>RenderTexture 动态绘制</strong>、
+        <strong>自定义 Surface Shader 读取墨水遮罩</strong>，以及碰撞检测触发绘制逻辑。
+        项目已在 GitHub 获得 <strong>74 Stars</strong>，并附有知乎技术分享文章。
+      </p>
+    </div>
+
+  </div>
+
+  <!-- Lightbox -->
+  <div class="lightbox" id="lightbox" onclick="closeLightbox()">
+    <span class="lightbox-close" onclick="closeLightbox()">×</span>
+    <img id="lightbox-img" src="" alt="" />
+  </div>
+
+  <footer>
+    <p>© 2026 xieliujian · Built with HTML &amp; CSS</p>
+  </footer>
+
+  <script>
+    function openLightbox(el) {
+      const src = el.querySelector('img').src;
+      document.getElementById('lightbox-img').src = src;
+      document.getElementById('lightbox').classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeLightbox() {
+      document.getElementById('lightbox').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
+  </script>
+
+</body>
+</html>
