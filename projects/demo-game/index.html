@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Demo Game — xieliujian</title>
+  <link rel="stylesheet" href="../../style.css" />
+</head>
+<body>
+
+  <nav class="navbar">
+    <a class="logo" href="../../">xieliujian</a>
+    <a class="back-link" href="../../">← 返回作品集</a>
+  </nav>
+
+  <div class="unity-container">
+    <h1>Demo Game</h1>
+    <p class="desc">示例 Unity WebGL 项目。将 Unity 构建产物放入 Build/ 目录并按下方说明操作后即可运行。</p>
+
+    <div class="unity-wrapper">
+      <!--
+        Unity WebGL 接入说明：
+        1. Unity → File → Build Settings → WebGL → Player Settings
+           → Publishing Settings → Compression Format → 改为 Disabled
+        2. 点击 Build，将生成的所有文件复制到本目录（index.html 改名 unity.html）：
+           - unity.html
+           - Build/*.loader.js
+           - Build/*.data
+           - Build/*.framework.js
+           - Build/*.wasm
+           - TemplateData/（可选，包含加载动画样式）
+        3. 将下方 iframe src 改为 "unity.html" 即可
+      -->
+      <iframe
+        src="unity.html"
+        allowfullscreen
+        allow="autoplay; fullscreen"
+        title="Demo Game"
+      ></iframe>
+    </div>
+  </div>
+
+  <footer>
+    <p>© 2026 xieliujian</p>
+  </footer>
+
+</body>
+</html>
