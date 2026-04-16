@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>工具插件 — xieliujian</title>
+  <link rel="stylesheet" href="../style.css" />
+  <style>
+    .plugin-header {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 3.5rem 2rem 1.5rem;
+    }
+    .plugin-header h1 {
+      font-size: 2rem;
+      font-weight: 800;
+      margin-bottom: 0.5rem;
+    }
+    .plugin-header p {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+    }
+    .plugin-header p a {
+      color: var(--accent);
+    }
+
+    .plugin-list {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 1rem 2rem 5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .plugin-item {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1rem 1.25rem;
+      transition: border-color var(--transition);
+    }
+    .plugin-item:hover {
+      border-color: var(--accent);
+    }
+
+    .plugin-icon {
+      font-size: 1.4rem;
+      flex-shrink: 0;
+      width: 2rem;
+      text-align: center;
+    }
+
+    .plugin-info {
+      flex: 1;
+      min-width: 0;
+    }
+    .plugin-name {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text);
+      word-break: break-all;
+    }
+    .plugin-size {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-top: 0.2rem;
+    }
+
+    .plugin-actions {
+      display: flex;
+      gap: 0.5rem;
+      flex-shrink: 0;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      padding: 0.38rem 0.9rem;
+      border-radius: 6px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      border: 1px solid var(--border);
+      cursor: pointer;
+      transition: border-color var(--transition), background var(--transition), color var(--transition);
+      text-decoration: none;
+      white-space: nowrap;
+    }
+    .btn-primary {
+      background: var(--accent);
+      color: #0d1117;
+      border-color: var(--accent);
+    }
+    .btn-primary:hover {
+      background: var(--accent-hover);
+      border-color: var(--accent-hover);
+      color: #0d1117;
+    }
+    .btn-secondary {
+      background: transparent;
+      color: var(--text-muted);
+    }
+    .btn-secondary:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    .status-bar {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 0 2rem 1rem;
+      font-size: 0.82rem;
+      color: var(--text-muted);
+    }
+
+    .skeleton {
+      background: linear-gradient(90deg, var(--surface) 25%, var(--border) 50%, var(--surface) 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.4s infinite;
+      border-radius: var(--radius);
+      height: 68px;
+    }
+    @keyframes shimmer {
+      0% { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
+    }
+
+    .error-msg {
+      background: rgba(248, 81, 73, 0.1);
+      border: 1px solid rgba(248, 81, 73, 0.4);
+      border-radius: var(--radius);
+      padding: 1rem 1.25rem;
+      color: #f85149;
+      font-size: 0.9rem;
+    }
+
+    @media (max-width: 540px) {
+      .plugin-item { flex-wrap: wrap; }
+      .plugin-actions { width: 100%; justify-content: flex-end; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="navbar">
+    <a class="logo" href="../">xieliujian</a>
+    <a class="back-link" href="../">← 返回作品集</a>
+  </nav>
+
+  <div class="plugin-header">
+    <h1>工具插件</h1>
+    <p>Unity 插件与工具资源，点击下载。源仓库：<a href="https://github.com/xieliujian/unity_plugin" target="_blank" rel="noopener">xieliujian/unity_plugin</a></p>
+  </div>
+
+  <div class="status-bar" id="status-bar"></div>
+
+  <div class="plugin-list" id="plugin-list">
+    <div class="skeleton"></div>
+    <div class="skeleton"></div>
+    <div class="skeleton"></div>
+    <div class="skeleton"></div>
+  </div>
+
+  <footer>
+    <p>© 2026 xieliujian · Built with HTML &amp; CSS</p>
+  </footer>
+
+  <script>
+    const REPO = 'xieliujian/unity_plugin';
+    const API_URL = `https://api.github.com/repos/${REPO}/contents`;
+
+    function formatSize(bytes) {
+      if (!bytes) return '';
+      if (bytes < 1024) return bytes + ' B';
+      if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
+      return (bytes / 1024 / 1024).toFixed(1) + ' MB';
+    }
+
+    function getIcon(name, type) {
+      if (type === 'dir') return '📁';
+      const ext = name.split('.').pop().toLowerCase();
+      const icons = {
+        unitypackage: '🔷',
+        zip: '📦',
+        '7z': '📦',
+        gz: '📦',
+        md: '📄',
+      };
+      return icons[ext] || '📄';
+    }
+
+    function buildItem(file) {
+      const isDir = file.type === 'dir';
+      const icon = getIcon(file.name, file.type);
+      const sizeStr = formatSize(file.size);
+
+      const item = document.createElement('div');
+      item.className = 'plugin-item';
+
+      const downloadBtn = isDir
+        ? `<a class="btn btn-secondary" href="${file.html_url}" target="_blank" rel="noopener">查看目录</a>`
+        : `<a class="btn btn-primary" href="${file.download_url}" download="${file.name}">↓ 下载</a>
+           <a class="btn btn-secondary" href="${file.html_url}" target="_blank" rel="noopener">GitHub</a>`;
+
+      item.innerHTML = `
+        <div class="plugin-icon">${icon}</div>
+        <div class="plugin-info">
+          <div class="plugin-name">${file.name}</div>
+          ${sizeStr ? `<div class="plugin-size">${sizeStr}</div>` : ''}
+        </div>
+        <div class="plugin-actions">${downloadBtn}</div>
+      `;
+      return item;
+    }
+
+    async function loadPlugins() {
+      const list = document.getElementById('plugin-list');
+      const statusBar = document.getElementById('status-bar');
+
+      try {
+        const res = await fetch(API_URL);
+        if (!res.ok) throw new Error(`GitHub API 响应 ${res.status}`);
+        const files = await res.json();
+
+        const visible = files.filter(f => f.name !== 'README.md');
+
+        list.innerHTML = '';
+        visible.forEach(f => list.appendChild(buildItem(f)));
+
+        const fileCount = visible.filter(f => f.type === 'file').length;
+        const dirCount = visible.filter(f => f.type === 'dir').length;
+        const parts = [];
+        if (fileCount) parts.push(`${fileCount} 个文件`);
+        if (dirCount) parts.push(`${dirCount} 个目录`);
+        statusBar.textContent = parts.join(' · ');
+      } catch (err) {
+        list.innerHTML = `<div class="error-msg">加载失败：${err.message}。请稍后重试或直接访问 <a href="https://github.com/${REPO}" target="_blank">GitHub 仓库</a>。</div>`;
+      }
+    }
+
+    loadPlugins();
+  </script>
+
+</body>
+</html>

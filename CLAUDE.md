@@ -17,10 +17,12 @@
 
 ```
 xieliujian_page/
-├── index.html                      # 主页：导航栏 + Hero + 项目卡片网格 + 页脚
+├── index.html                      # 主页：导航栏 + Hero + 项目卡片网格 + 工具插件入口 + 页脚
 ├── style.css                       # 全局样式（所有页面共用）
 ├── assets/
 │   └── thumbnails/                 # 项目封面图（PNG/JPG，命名与项目目录一致）
+├── plugins/
+│   └── index.html                  # 工具插件页：动态读取 GitHub API 展示插件列表
 ├── projects/
 │   ├── avatar2/
 │   │   └── index.html              # Avatar 换装系统 V2 项目页
@@ -59,6 +61,13 @@ chore: 更新目录结构
 style: 调整卡片悬浮样式
 docs: 更新 README
 ```
+
+## 工具插件页（plugins/）
+
+- 页面通过 **GitHub API** (`https://api.github.com/repos/xieliujian/unity_plugin/contents`) 动态拉取文件列表，无需手动维护
+- 文件直接使用 `download_url`（`raw.githubusercontent.com`）触发浏览器下载；目录跳转至 GitHub 页面
+- `README.md` 在渲染时自动过滤，不展示在列表中
+- 若需新增插件，直接向 [xieliujian/unity_plugin](https://github.com/xieliujian/unity_plugin) 仓库推送文件即可，页面自动同步
 
 ## 注意事项
 
