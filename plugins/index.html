@@ -86,7 +86,8 @@
       color: var(--text);
       word-break: break-all;
     }
-    .file-size { font-size: 0.78rem; color: var(--text-muted); margin-top: 0.15rem; }
+    .file-desc { font-size: 0.82rem; color: var(--text-muted); margin-top: 0.3rem; line-height: 1.5; }
+    .file-size { font-size: 0.78rem; color: var(--text-muted); margin-top: 0.2rem; }
 
     .file-actions { display: flex; gap: 0.5rem; flex-shrink: 0; }
 
@@ -169,6 +170,31 @@
   <script>
     const REPO = 'xieliujian/unity_plugin';
 
+    // 按文件名（精确匹配）提供中文描述
+    const DESCRIPTIONS = {
+      'Digital Glitches.unitypackage':
+        '屏幕故障特效插件，提供多种数字失真、扫描线、色差等 Glitch 视觉效果，适用于赛博朋克/黑客风格场景。',
+      'Fast Glitch Mobile URP VR AR LWRP.unitypackage':
+        '轻量级 Glitch 后处理插件，专为移动端优化，兼容 URP / LWRP / VR / AR 管线，性能开销极低。',
+      'Fast_Mobile_Post_Processing_Color_CorrectionLUT_Blur_Bloom_LWRP_URP_1.7.unitypackage':
+        '移动端高性能后处理套件，包含 LUT 调色、颜色校正、模糊（Blur）和泛光（Bloom），支持 LWRP / URP，适合手游项目。',
+      'Odin - Inspector and Serializer 2.1.13.unitypackage':
+        '功能强大的 Inspector 增强与序列化框架，提供丰富的特性标签（Attribute）、自定义 Inspector 布局及高性能序列化，是 Unity 开发必备插件之一。',
+      'ShaderVariantStripping_ExampleProject.zip':
+        'Shader 变体裁剪示例工程，演示如何在构建时通过 IPreprocessShaders 接口剔除无用 Shader 变体，有效减少包体大小和加载时间。',
+      'UIGamma2Linear.7z':
+        'UI Gamma 转 Linear 工具，解决在 Linear 颜色空间项目中 UI 贴图显示偏亮的问题，提供脚本与 Shader 两种修正方案。',
+      'box-projection.unitypackage':
+        '盒式投影反射（Box Projection Cubemap）插件，用于室内场景的局部反射修正，使反射探针在封闭空间中呈现更准确的透视效果。',
+      'lua-protobuf-0.3.2.zip':
+        'Lua 版 Protocol Buffers 库，支持在 Lua 环境中编解码 .proto 定义的消息，常用于 Unity + XLua/tolua 热更新架构的网络协议层。',
+      // MeshCombine 子文件
+      'MCS Caves Overhangs 1.31.unitypackage':
+        '洞穴与悬崖地形插件，可快速生成凹凸起伏的洞穴、悬挂岩壁等复杂地形网格，与 Mesh Combine Studio 配合使用效果更佳。',
+      'Mesh Combine Studio 2 2.997.unitypackage':
+        '网格合并工具，可将场景中大量静态物体的 Mesh 自动合批合并为少量 Draw Call，显著提升运行时渲染性能，支持 LOD 与区块化合并。',
+    };
+
     function formatSize(bytes) {
       if (!bytes) return '';
       if (bytes < 1024) return bytes + ' B';
@@ -184,10 +210,12 @@
     function buildFileRow(file, cls = '') {
       const row = document.createElement('div');
       row.className = 'plugin-item' + (cls ? ' ' + cls : '');
+      const desc = DESCRIPTIONS[file.name] || '';
       row.innerHTML = `
         <div class="file-icon">${getIcon(file.name)}</div>
         <div class="file-info">
           <div class="file-name">${file.name}</div>
+          ${desc ? `<div class="file-desc">${desc}</div>` : ''}
           ${file.size ? `<div class="file-size">${formatSize(file.size)}</div>` : ''}
         </div>
         <div class="file-actions">
