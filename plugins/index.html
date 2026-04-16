@@ -11,78 +11,92 @@
       margin: 0 auto;
       padding: 3.5rem 2rem 1.5rem;
     }
-    .plugin-header h1 {
-      font-size: 2rem;
-      font-weight: 800;
-      margin-bottom: 0.5rem;
-    }
-    .plugin-header p {
-      color: var(--text-muted);
-      font-size: 0.95rem;
-    }
-    .plugin-header p a {
-      color: var(--accent);
-    }
+    .plugin-header h1 { font-size: 2rem; font-weight: 800; margin-bottom: 0.5rem; }
+    .plugin-header p { color: var(--text-muted); font-size: 0.95rem; }
 
     .plugin-list {
       max-width: 860px;
       margin: 0 auto;
-      padding: 1rem 2rem 5rem;
+      padding: 0.5rem 2rem 5rem;
       display: flex;
       flex-direction: column;
-      gap: 0.75rem;
+      gap: 0.6rem;
     }
 
+    /* ── 文件夹分组 ── */
+    .folder-group {
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+    .folder-header {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.85rem 1.25rem;
+      background: var(--surface);
+      cursor: pointer;
+      user-select: none;
+      transition: background var(--transition);
+    }
+    .folder-header:hover { background: #1c2128; }
+    .folder-icon { font-size: 1.2rem; flex-shrink: 0; }
+    .folder-name { font-size: 0.95rem; font-weight: 700; flex: 1; }
+    .folder-count { font-size: 0.8rem; color: var(--text-muted); }
+    .chevron {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      transition: transform 0.2s ease;
+    }
+    .folder-group.open .chevron { transform: rotate(90deg); }
+    .folder-children {
+      display: none;
+      flex-direction: column;
+      border-top: 1px solid var(--border);
+    }
+    .folder-group.open .folder-children { display: flex; }
+
+    /* ── 单个文件行 ── */
     .plugin-item {
       display: flex;
       align-items: center;
       gap: 1rem;
+      padding: 0.85rem 1.25rem;
       background: var(--surface);
+      transition: background var(--transition);
+    }
+    .plugin-item + .plugin-item { border-top: 1px solid var(--border); }
+    .plugin-item:hover { background: #1c2128; }
+
+    /* 根级文件有独立边框 */
+    .plugin-item.root-item {
       border: 1px solid var(--border);
       border-radius: var(--radius);
-      padding: 1rem 1.25rem;
-      transition: border-color var(--transition);
     }
-    .plugin-item:hover {
-      border-color: var(--accent);
-    }
+    .plugin-item.root-item:hover { border-color: var(--accent); }
 
-    .plugin-icon {
-      font-size: 1.4rem;
-      flex-shrink: 0;
-      width: 2rem;
-      text-align: center;
-    }
+    /* 子文件缩进 */
+    .plugin-item.child-item { padding-left: 2rem; }
 
-    .plugin-info {
-      flex: 1;
-      min-width: 0;
-    }
-    .plugin-name {
-      font-size: 0.95rem;
+    .file-icon { font-size: 1.2rem; flex-shrink: 0; width: 1.6rem; text-align: center; }
+    .file-info { flex: 1; min-width: 0; }
+    .file-name {
+      font-size: 0.9rem;
       font-weight: 600;
       color: var(--text);
       word-break: break-all;
     }
-    .plugin-size {
-      font-size: 0.8rem;
-      color: var(--text-muted);
-      margin-top: 0.2rem;
-    }
+    .file-size { font-size: 0.78rem; color: var(--text-muted); margin-top: 0.15rem; }
 
-    .plugin-actions {
-      display: flex;
-      gap: 0.5rem;
-      flex-shrink: 0;
-    }
+    .file-actions { display: flex; gap: 0.5rem; flex-shrink: 0; }
 
     .btn {
       display: inline-flex;
       align-items: center;
-      gap: 0.35rem;
-      padding: 0.38rem 0.9rem;
+      gap: 0.3rem;
+      padding: 0.35rem 0.85rem;
       border-radius: 6px;
-      font-size: 0.82rem;
+      font-size: 0.8rem;
       font-weight: 600;
       border: 1px solid var(--border);
       cursor: pointer;
@@ -90,24 +104,10 @@
       text-decoration: none;
       white-space: nowrap;
     }
-    .btn-primary {
-      background: var(--accent);
-      color: #0d1117;
-      border-color: var(--accent);
-    }
-    .btn-primary:hover {
-      background: var(--accent-hover);
-      border-color: var(--accent-hover);
-      color: #0d1117;
-    }
-    .btn-secondary {
-      background: transparent;
-      color: var(--text-muted);
-    }
-    .btn-secondary:hover {
-      border-color: var(--accent);
-      color: var(--accent);
-    }
+    .btn-primary { background: var(--accent); color: #0d1117; border-color: var(--accent); }
+    .btn-primary:hover { background: var(--accent-hover); border-color: var(--accent-hover); color: #0d1117; }
+    .btn-secondary { background: transparent; color: var(--text-muted); }
+    .btn-secondary:hover { border-color: var(--accent); color: var(--accent); }
 
     .status-bar {
       max-width: 860px;
@@ -118,20 +118,17 @@
     }
 
     .skeleton {
+      height: 62px;
+      border-radius: var(--radius);
       background: linear-gradient(90deg, var(--surface) 25%, var(--border) 50%, var(--surface) 75%);
       background-size: 200% 100%;
       animation: shimmer 1.4s infinite;
-      border-radius: var(--radius);
-      height: 68px;
     }
-    @keyframes shimmer {
-      0% { background-position: 200% 0; }
-      100% { background-position: -200% 0; }
-    }
+    @keyframes shimmer { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
 
     .error-msg {
-      background: rgba(248, 81, 73, 0.1);
-      border: 1px solid rgba(248, 81, 73, 0.4);
+      background: rgba(248,81,73,.1);
+      border: 1px solid rgba(248,81,73,.4);
       border-radius: var(--radius);
       padding: 1rem 1.25rem;
       color: #f85149;
@@ -140,7 +137,7 @@
 
     @media (max-width: 540px) {
       .plugin-item { flex-wrap: wrap; }
-      .plugin-actions { width: 100%; justify-content: flex-end; }
+      .file-actions { width: 100%; justify-content: flex-end; }
     }
   </style>
 </head>
@@ -171,7 +168,6 @@
 
   <script>
     const REPO = 'xieliujian/unity_plugin';
-    const API_URL = `https://api.github.com/repos/${REPO}/contents`;
 
     function formatSize(bytes) {
       if (!bytes) return '';
@@ -180,41 +176,54 @@
       return (bytes / 1024 / 1024).toFixed(1) + ' MB';
     }
 
-    function getIcon(name, type) {
-      if (type === 'dir') return '📁';
+    function getIcon(name) {
       const ext = name.split('.').pop().toLowerCase();
-      const icons = {
-        unitypackage: '🔷',
-        zip: '📦',
-        '7z': '📦',
-        gz: '📦',
-        md: '📄',
-      };
-      return icons[ext] || '📄';
+      return { unitypackage: '🔷', zip: '📦', '7z': '📦', gz: '📦', md: '📄' }[ext] || '📄';
     }
 
-    function buildItem(file) {
-      const isDir = file.type === 'dir';
-      const icon = getIcon(file.name, file.type);
-      const sizeStr = formatSize(file.size);
-
-      const item = document.createElement('div');
-      item.className = 'plugin-item';
-
-      const downloadBtn = isDir
-        ? `<a class="btn btn-secondary" href="${file.html_url}" target="_blank" rel="noopener">查看目录</a>`
-        : `<a class="btn btn-primary" href="${file.download_url}" download="${file.name}">↓ 下载</a>
-           <a class="btn btn-secondary" href="${file.html_url}" target="_blank" rel="noopener">GitHub</a>`;
-
-      item.innerHTML = `
-        <div class="plugin-icon">${icon}</div>
-        <div class="plugin-info">
-          <div class="plugin-name">${file.name}</div>
-          ${sizeStr ? `<div class="plugin-size">${sizeStr}</div>` : ''}
+    function buildFileRow(file, cls = '') {
+      const row = document.createElement('div');
+      row.className = 'plugin-item' + (cls ? ' ' + cls : '');
+      row.innerHTML = `
+        <div class="file-icon">${getIcon(file.name)}</div>
+        <div class="file-info">
+          <div class="file-name">${file.name}</div>
+          ${file.size ? `<div class="file-size">${formatSize(file.size)}</div>` : ''}
         </div>
-        <div class="plugin-actions">${downloadBtn}</div>
-      `;
-      return item;
+        <div class="file-actions">
+          <a class="btn btn-primary" href="${file.download_url}" download="${file.name}">↓ 下载</a>
+          <a class="btn btn-secondary" href="${file.html_url}" target="_blank" rel="noopener">GitHub</a>
+        </div>`;
+      return row;
+    }
+
+    function buildFolderGroup(dir, children) {
+      const group = document.createElement('div');
+      group.className = 'folder-group';
+
+      const header = document.createElement('div');
+      header.className = 'folder-header';
+      header.innerHTML = `
+        <div class="folder-icon">📁</div>
+        <div class="folder-name">${dir.name}</div>
+        <div class="folder-count">${children.length} 个文件</div>
+        <div class="chevron">▶</div>`;
+      header.addEventListener('click', () => group.classList.toggle('open'));
+
+      const body = document.createElement('div');
+      body.className = 'folder-children';
+      children.forEach(f => body.appendChild(buildFileRow(f, 'child-item')));
+
+      group.appendChild(header);
+      group.appendChild(body);
+      return group;
+    }
+
+    async function fetchContents(path) {
+      const url = `https://api.github.com/repos/${REPO}/contents${path ? '/' + path : ''}`;
+      const res = await fetch(url);
+      if (!res.ok) throw new Error(`GitHub API ${res.status}`);
+      return res.json();
     }
 
     async function loadPlugins() {
@@ -222,21 +231,32 @@
       const statusBar = document.getElementById('status-bar');
 
       try {
-        const res = await fetch(API_URL);
-        if (!res.ok) throw new Error(`GitHub API 响应 ${res.status}`);
-        const files = await res.json();
+        const root = await fetchContents('');
+        const visible = root.filter(f => f.name !== 'README.md');
 
-        const visible = files.filter(f => f.name !== 'README.md');
+        // 并行拉取所有子目录
+        const dirItems = visible.filter(f => f.type === 'dir');
+        const fileItems = visible.filter(f => f.type === 'file');
+
+        const dirContents = await Promise.all(
+          dirItems.map(d => fetchContents(d.path).then(children => ({ dir: d, children })))
+        );
 
         list.innerHTML = '';
-        visible.forEach(f => list.appendChild(buildItem(f)));
 
-        const fileCount = visible.filter(f => f.type === 'file').length;
-        const dirCount = visible.filter(f => f.type === 'dir').length;
-        const parts = [];
-        if (fileCount) parts.push(`${fileCount} 个文件`);
-        if (dirCount) parts.push(`${dirCount} 个目录`);
-        statusBar.textContent = parts.join(' · ');
+        // 先渲染根级文件
+        fileItems.forEach(f => list.appendChild(buildFileRow(f, 'root-item')));
+
+        // 再渲染展开的文件夹（默认展开）
+        dirContents.forEach(({ dir, children }) => {
+          const files = children.filter(c => c.type === 'file');
+          const group = buildFolderGroup(dir, files);
+          group.classList.add('open');   // 默认展开
+          list.appendChild(group);
+        });
+
+        const totalFiles = fileItems.length + dirContents.reduce((s, d) => s + d.children.filter(c => c.type === 'file').length, 0);
+        statusBar.textContent = `共 ${totalFiles} 个文件 · ${dirItems.length} 个分类目录`;
       } catch (err) {
         list.innerHTML = `<div class="error-msg">加载失败：${err.message}。请稍后重试或直接访问 <a href="https://github.com/${REPO}" target="_blank">GitHub 仓库</a>。</div>`;
       }
