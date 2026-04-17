@@ -7,11 +7,10 @@
   <link rel="stylesheet" href="../../style.css" />
   <style>
     .project-hero {
-      max-width: 900px;
+      max-width: 960px;
       margin: 2.5rem auto 0;
-      padding: 0 1.5rem;
+      padding: 0 1.5rem 4rem;
     }
-
     .project-hero-header {
       display: flex;
       align-items: flex-start;
@@ -20,19 +19,8 @@
       gap: 1rem;
       margin-bottom: 1.75rem;
     }
-
-    .project-hero-header h1 {
-      font-size: 1.8rem;
-      font-weight: 800;
-      line-height: 1.2;
-    }
-
-    .project-hero-header .subtitle {
-      color: var(--text-muted);
-      font-size: 0.95rem;
-      margin-top: 0.35rem;
-    }
-
+    .project-hero-header h1 { font-size: 1.8rem; font-weight: 800; line-height: 1.2; }
+    .project-hero-header .subtitle { color: var(--text-muted); font-size: 0.95rem; margin-top: 0.35rem; }
     .project-hero-header .gh-link {
       display: inline-flex;
       align-items: center;
@@ -45,139 +33,84 @@
       white-space: nowrap;
       transition: border-color var(--transition), color var(--transition);
       flex-shrink: 0;
+      text-decoration: none;
     }
-    .project-hero-header .gh-link:hover {
-      border-color: var(--accent);
-      color: var(--accent);
-    }
-    .project-hero-header .gh-link svg {
-      flex-shrink: 0;
-    }
+    .project-hero-header .gh-link:hover { border-color: var(--accent); color: var(--accent); }
 
-    /* 演示 GIF */
-    .demo-showcase {
+    .tag-group { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 2rem; }
+    .tag { font-size: 0.78rem; padding: 0.25rem 0.7rem; border-radius: 4px; border: 1px solid var(--border); color: var(--text-muted); }
+    .tag.highlight { background: rgba(88,166,255,0.1); border-color: rgba(88,166,255,0.3); color: var(--accent); }
+
+    /* WebGL 播放器 */
+    .webgl-section { margin-bottom: 2.5rem; }
+    .webgl-section .section-label {
+      font-size: 0.8rem; font-weight: 600; text-transform: uppercase;
+      letter-spacing: 0.08em; color: var(--text-muted); margin-bottom: 0.75rem;
+    }
+    .unity-player-wrap {
+      position: relative;
       width: 100%;
+      aspect-ratio: 960 / 600;
+      background: #000;
       border-radius: var(--radius);
       border: 1px solid var(--border);
       overflow: hidden;
-      background: #000;
-      margin-bottom: 2.5rem;
     }
-    .demo-showcase img {
-      width: 100%;
-      display: block;
+    #unity-canvas { width: 100%; height: 100%; display: block; background: #000; }
+
+    #unity-loading-bar {
+      position: absolute; inset: 0;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center; gap: 1.25rem;
+      background: #0d1117;
+    }
+    .loading-logo { font-size: 2.5rem; }
+    .loading-title { font-size: 0.9rem; color: var(--text-muted); }
+    #unity-progress-bar-empty {
+      width: 220px; height: 5px;
+      border-radius: 3px; background: var(--border); overflow: hidden;
+    }
+    #unity-progress-bar-full {
+      height: 100%; width: 0%;
+      background: var(--accent); border-radius: 3px;
+      transition: width 0.15s ease;
     }
 
-    /* 标签组 */
-    .tag-group {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.5rem;
-      margin-bottom: 2rem;
-    }
-    .tag {
-      font-size: 0.78rem;
-      padding: 0.25rem 0.7rem;
-      border-radius: 4px;
-      border: 1px solid var(--border);
-      color: var(--text-muted);
-    }
-    .tag.highlight {
-      background: rgba(88, 166, 255, 0.1);
-      border-color: rgba(88, 166, 255, 0.3);
-      color: var(--accent);
-    }
+    #unity-warning { position: absolute; top: 0; left: 0; right: 0; z-index: 10; }
 
-    /* 内容区块 */
-    .content-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1.25rem;
-      margin-bottom: 2rem;
+    #unity-fullscreen-button {
+      position: absolute; bottom: 10px; right: 10px;
+      width: 30px; height: 30px;
+      background: rgba(0,0,0,0.55);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 4px; cursor: pointer;
+      color: #fff; font-size: 0.85rem;
+      display: flex; align-items: center; justify-content: center;
+      transition: background var(--transition);
     }
-    @media (max-width: 640px) {
-      .content-grid { grid-template-columns: 1fr; }
-    }
+    #unity-fullscreen-button:hover { background: rgba(88,166,255,0.35); }
 
-    .content-block {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 1.25rem 1.5rem;
-    }
+    /* 内容网格 */
+    .content-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; margin-bottom: 2rem; }
+    @media (max-width: 640px) { .content-grid { grid-template-columns: 1fr; } }
+
+    .content-block { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.25rem 1.5rem; }
     .content-block h2 {
-      font-size: 0.8rem;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: var(--text-muted);
-      margin-bottom: 0.9rem;
+      font-size: 0.8rem; font-weight: 600; text-transform: uppercase;
+      letter-spacing: 0.08em; color: var(--text-muted); margin-bottom: 0.9rem;
     }
-    .content-block p {
-      font-size: 0.9rem;
-      color: var(--text-muted);
-      line-height: 1.7;
-    }
+    .content-block p { font-size: 0.9rem; color: var(--text-muted); line-height: 1.7; }
     .content-block p + p { margin-top: 0.6rem; }
 
-    /* 功能列表 */
-    .feature-list {
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: 0.55rem;
-    }
-    .feature-list li {
-      font-size: 0.9rem;
-      color: var(--text-muted);
-      display: flex;
-      align-items: flex-start;
-      gap: 0.6rem;
-      line-height: 1.5;
-    }
-    .feature-list li::before {
-      content: '✦';
-      color: var(--accent);
-      font-size: 0.65rem;
-      margin-top: 0.28rem;
-      flex-shrink: 0;
-    }
+    .feature-list { list-style: none; display: flex; flex-direction: column; gap: 0.55rem; }
+    .feature-list li { font-size: 0.9rem; color: var(--text-muted); display: flex; align-items: flex-start; gap: 0.6rem; line-height: 1.5; }
+    .feature-list li::before { content: '✦'; color: var(--accent); font-size: 0.65rem; margin-top: 0.28rem; flex-shrink: 0; }
 
-    /* 部件网格 */
-    .parts-grid {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.5rem;
-    }
-    .part-chip {
-      font-size: 0.8rem;
-      padding: 0.3rem 0.75rem;
-      background: rgba(255,255,255,0.04);
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      color: var(--text);
-      font-family: 'Consolas', monospace;
-    }
+    .parts-grid { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+    .part-chip { font-size: 0.8rem; padding: 0.3rem 0.75rem; background: rgba(255,255,255,0.04); border: 1px solid var(--border); border-radius: 20px; color: var(--text); font-family: Consolas, monospace; }
 
-    /* 全宽块 */
-    .content-block.full {
-      grid-column: 1 / -1;
-    }
-
-    /* 技术栈 */
-    .tech-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.6rem;
-    }
-    .tech-item {
-      font-size: 0.82rem;
-      padding: 0.3rem 0.8rem;
-      border-radius: 6px;
-      background: rgba(88, 166, 255, 0.07);
-      border: 1px solid rgba(88, 166, 255, 0.2);
-      color: var(--accent);
-    }
+    .tech-row { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-bottom: 1rem; }
+    .tech-item { font-size: 0.82rem; padding: 0.3rem 0.8rem; border-radius: 6px; background: rgba(88,166,255,0.07); border: 1px solid rgba(88,166,255,0.2); color: var(--accent); }
   </style>
 </head>
 <body>
@@ -194,10 +127,7 @@
         <h1>Avatar 换装系统 V2</h1>
         <p class="subtitle">Unity · 角色装备动态换装 · 骨骼绑定 · 脸部贴花</p>
       </div>
-      <a class="gh-link"
-         href="https://github.com/xieliujian/UnityDemo_Avatar2"
-         target="_blank"
-         rel="noopener">
+      <a class="gh-link" href="https://github.com/xieliujian/UnityDemo_Avatar2" target="_blank" rel="noopener">
         <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
           <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38
             0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13
@@ -213,16 +143,6 @@
       </a>
     </div>
 
-    <!-- 演示动图 -->
-    <div class="demo-showcase">
-      <img
-        src="https://raw.githubusercontent.com/xieliujian/UnityDemo_Avatar2/main/Video/1.gif"
-        alt="Avatar 换装演示"
-        loading="lazy"
-      />
-    </div>
-
-    <!-- 标签 -->
     <div class="tag-group">
       <span class="tag highlight">Unity</span>
       <span class="tag highlight">C#</span>
@@ -233,12 +153,31 @@
       <span class="tag">脸部贴花</span>
     </div>
 
-    <!-- 内容网格 -->
+    <!-- Unity WebGL 播放器 -->
+    <div class="webgl-section">
+      <div class="section-label">在线体验</div>
+      <div class="unity-player-wrap" id="unity-container">
+        <canvas id="unity-canvas" tabindex="-1"></canvas>
+
+        <div id="unity-loading-bar">
+          <div class="loading-logo">🎮</div>
+          <div class="loading-title">正在加载 Avatar 换装系统...</div>
+          <div id="unity-progress-bar-empty">
+            <div id="unity-progress-bar-full"></div>
+          </div>
+        </div>
+
+        <div id="unity-warning"></div>
+        <button id="unity-fullscreen-button" title="全屏">⛶</button>
+      </div>
+    </div>
+
+    <!-- 项目介绍 -->
     <div class="content-grid">
 
       <div class="content-block">
         <h2>项目简介</h2>
-        <p>Unity Avatar 换装系统第二版，在第一版基础上对架构进行了优化，使其更适合在实际项目中集成使用。</p>
+        <p>Unity Avatar 换装系统第二版，对架构进行了优化，使其更适合在实际项目中集成使用。</p>
         <p>系统将角色模型拆分为多个独立的部件 Prefab，每个部件的 Mesh、骨骼和材质均通过动态加载方式填充，实现运行时任意替换。</p>
       </div>
 
@@ -247,8 +186,8 @@
         <ul class="feature-list">
           <li>模型拆分为独立 Prefab 部件，仅保留骨架信息</li>
           <li>运行时动态加载 Mesh 和材质列表</li>
-          <li><code>bonenames.asset</code> 记录骨骼信息，自动查询填充 SkinnedMeshRenderer</li>
-          <li>脸部贴花系统：支持旋转、缩放、位移 UV 矩阵计算</li>
+          <li>bonenames.asset 记录骨骼信息，自动填充 SkinnedMeshRenderer</li>
+          <li>脸部贴花：支持旋转、缩放、位移 UV 矩阵计算</li>
           <li>自定义 Shader 实现贴花叠加效果</li>
         </ul>
       </div>
@@ -269,11 +208,10 @@
       <div class="content-block">
         <h2>技术栈</h2>
         <div class="tech-row">
-          <span class="tech-item">C# 94%</span>
-          <span class="tech-item">ShaderLab 5%</span>
+          <span class="tech-item">C# 84%</span>
+          <span class="tech-item">ShaderLab 4%</span>
           <span class="tech-item">HLSL 1%</span>
         </div>
-        <br/>
         <ul class="feature-list">
           <li>SkinnedMeshRenderer 骨骼动态绑定</li>
           <li>Matrix4x4 UV 变换矩阵</li>
@@ -288,6 +226,42 @@
   <footer>
     <p>© 2026 xieliujian</p>
   </footer>
+
+  <script>
+    var buildUrl = "Build";
+    var loaderUrl = buildUrl + "/webgl.loader.js";
+    var config = {
+      dataUrl:            buildUrl + "/webgl.data",
+      frameworkUrl:       buildUrl + "/webgl.framework.js",
+      codeUrl:            buildUrl + "/webgl.wasm",
+      streamingAssetsUrl: "StreamingAssets",
+      companyName:        "xieliujian",
+      productName:        "Equipment",
+      productVersion:     "1.0"
+    };
+
+    var canvas        = document.getElementById("unity-canvas");
+    var loadingBar    = document.getElementById("unity-loading-bar");
+    var progressFull  = document.getElementById("unity-progress-bar-full");
+    var fullscreenBtn = document.getElementById("unity-fullscreen-button");
+
+    var script = document.createElement("script");
+    script.src = loaderUrl;
+    script.onload = function () {
+      createUnityInstance(canvas, config, function (progress) {
+        progressFull.style.width = (100 * progress) + "%";
+      }).then(function (instance) {
+        loadingBar.style.display = "none";
+        fullscreenBtn.onclick = function () { instance.SetFullscreen(1); };
+      }).catch(function (msg) {
+        loadingBar.innerHTML =
+          '<div style="color:#f85149;padding:2rem;text-align:center;">' +
+          '<div style="font-size:2rem;margin-bottom:0.5rem;">⚠️</div>' +
+          '<div>' + msg + '</div></div>';
+      });
+    };
+    document.head.appendChild(script);
+  </script>
 
 </body>
 </html>
