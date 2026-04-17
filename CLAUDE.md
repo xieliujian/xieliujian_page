@@ -69,6 +69,19 @@ docs: 更新 README
 - `README.md` 在渲染时自动过滤，不展示在列表中
 - 若需新增插件，直接向 [xieliujian/unity_plugin](https://github.com/xieliujian/unity_plugin) 仓库推送文件即可，页面自动同步
 
+## 修改记录
+
+| 日期 | 内容 |
+|------|------|
+| 2026-04-16 | 初始化个人作品集项目结构：`index.html` 主页、`style.css` 全局样式（深色主题）、`projects/demo-game/` 示例项目模板 |
+| 2026-04-16 | 新增 `projects/avatar2/`：Avatar 换装系统 V2 项目展示页，包含演示 GIF、功能说明、技术栈介绍 |
+| 2026-04-16 | 新增 `projects/splatoon/`：喷射战士 Demo 项目展示页 |
+| 2026-04-16 | 新增 `plugins/index.html`：工具插件页，通过 GitHub API 动态拉取 `unity_plugin` 仓库文件列表，支持一键下载 |
+| 2026-04-16 | 主页新增"工具插件"分区，添加插件库入口卡片 |
+| 2026-04-16 | 完善 `CLAUDE.md` 项目文档，记录技术栈、开发规范及修改记录 |
+
+---
+
 ## 注意事项
 
 - Unity WebGL 文件体积较大（通常数十 MB），**不要**将 `Build/` 目录下的构建产物提交到 Git（可在 `.gitignore` 中排除，用 Git LFS 或直接上传）
