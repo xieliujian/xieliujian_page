@@ -188,6 +188,8 @@
         '盒式投影反射（Box Projection Cubemap）插件，用于室内场景的局部反射修正，使反射探针在封闭空间中呈现更准确的透视效果。',
       'lua-protobuf-0.3.2.zip':
         'Lua 版 Protocol Buffers 库，支持在 Lua 环境中编解码 .proto 定义的消息，常用于 Unity + XLua/tolua 热更新架构的网络协议层。',
+      'MightyAndPowerfulGames.rar':
+        'Mighty And Powerful Games 插件合集压缩包，包含该团队发布的 Unity 资源与工具插件，解压后可按需导入 Unity 项目使用。',
       // MeshCombine 子文件
       'MCS Caves Overhangs 1.31.unitypackage':
         '洞穴与悬崖地形插件，可快速生成凹凸起伏的洞穴、悬挂岩壁等复杂地形网格，与 Mesh Combine Studio 配合使用效果更佳。',
@@ -204,7 +206,7 @@
 
     function getIcon(name) {
       const ext = name.split('.').pop().toLowerCase();
-      return { unitypackage: '🔷', zip: '📦', '7z': '📦', gz: '📦', md: '📄' }[ext] || '📄';
+      return { unitypackage: '🔷', zip: '📦', '7z': '📦', rar: '📦', gz: '📦', md: '📄' }[ext] || '📄';
     }
 
     function buildFileRow(file, cls = '') {
