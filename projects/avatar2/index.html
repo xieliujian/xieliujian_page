@@ -80,15 +80,21 @@
 
     #unity-fullscreen-button {
       position: absolute; bottom: 10px; right: 10px;
-      width: 30px; height: 30px;
-      background: rgba(0,0,0,0.55);
-      border: 1px solid rgba(255,255,255,0.15);
-      border-radius: 4px; cursor: pointer;
-      color: #fff; font-size: 0.85rem;
+      width: 36px; height: 36px;
+      background: rgba(0,0,0,0.6);
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 6px; cursor: pointer;
+      color: #fff; font-size: 1rem;
       display: flex; align-items: center; justify-content: center;
       transition: background var(--transition);
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
     }
-    #unity-fullscreen-button:hover { background: rgba(88,166,255,0.35); }
+    #unity-fullscreen-button:hover,
+    #unity-fullscreen-button:active { background: rgba(88,166,255,0.45); }
+    @media (max-width: 640px) {
+      #unity-fullscreen-button { width: 44px; height: 44px; font-size: 1.2rem; }
+    }
 
     /* 内容网格 */
     .content-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; margin-bottom: 2rem; }
@@ -252,7 +258,54 @@
         progressFull.style.width = (100 * progress) + "%";
       }).then(function (instance) {
         loadingBar.style.display = "none";
-        fullscreenBtn.onclick = function () { instance.SetFullscreen(1); };
+
+        fullscreenBtn.onclick = function () {
+          var container = document.getElementById("unity-container");
+          var isFullscreen = !!(
+            document.fullscreenElement ||
+            document.webkitFullscreenElement ||
+            document.mozFullScreenElement
+          );
+
+          if (isFullscreen) {
+            // 退出全屏
+            var exitFn = document.exitFullscreen ||
+              document.webkitExitFullscreen ||
+              document.mozCancelFullScreen;
+            if (exitFn) exitFn.call(document);
+          } else {
+            // 进入全屏
+            var reqFn = container.requestFullscreen ||
+              container.webkitRequestFullscreen ||
+              container.mozRequestFullScreen;
+            if (reqFn) {
+              reqFn.call(container).then(function () {
+                // 锁定横屏（手机）
+                if (screen.orientation && screen.orientation.lock) {
+                  screen.orientation.lock("landscape").catch(function () {});
+                }
+              }).catch(function () {
+                // 浏览器不支持时降级使用 Unity 内部全屏
+                instance.SetFullscreen(1);
+              });
+            } else {
+              instance.SetFullscreen(1);
+            }
+          }
+        };
+
+        // 退出全屏时解锁屏幕方向
+        document.addEventListener("fullscreenchange", function () {
+          if (!document.fullscreenElement && screen.orientation && screen.orientation.unlock) {
+            screen.orientation.unlock();
+          }
+        });
+        document.addEventListener("webkitfullscreenchange", function () {
+          if (!document.webkitFullscreenElement && screen.orientation && screen.orientation.unlock) {
+            screen.orientation.unlock();
+          }
+        });
+
       }).catch(function (msg) {
         loadingBar.innerHTML =
           '<div style="color:#f85149;padding:2rem;text-align:center;">' +
