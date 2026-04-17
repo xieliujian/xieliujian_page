@@ -315,8 +315,15 @@
           container.classList.add("css-fullscreen");
           fullscreenBtn.innerHTML = "✕";
           fullscreenBtn.title = "退出全屏";
-          // 提示用户横屏
-          showToast("请将设备旋转至横屏");
+          // 检测系统方向锁是否开启
+          var isLocked = screen.orientation && screen.orientation.type &&
+            screen.orientation.type.indexOf("portrait") !== -1 &&
+            window.innerWidth < window.innerHeight;
+          if (isLocked) {
+            showToast("请在控制中心关闭方向锁定，再旋转至横屏");
+          } else {
+            showToast("请将设备旋转至横屏");
+          }
         }
         function exitCSSFullscreen() {
           container.classList.remove("css-fullscreen");
@@ -358,12 +365,19 @@
           }
         };
 
-        // 退出全屏时解锁方向 & 更新按钮图标
+        // 退出全屏时强制回竖屏再解锁
         function onFSChange() {
           var isFull = !!(document.fullscreenElement || document.webkitFullscreenElement);
           fullscreenBtn.innerHTML = isFull ? "✕" : "⛶";
-          if (!isFull && screen.orientation && screen.orientation.unlock) {
-            screen.orientation.unlock();
+          if (!isFull && screen.orientation) {
+            if (screen.orientation.lock) {
+              // 先锁到竖屏，确保立即恢复竖向，再解锁允许自由旋转
+              screen.orientation.lock("portrait").catch(function () {}).finally(function () {
+                screen.orientation.unlock();
+              });
+            } else if (screen.orientation.unlock) {
+              screen.orientation.unlock();
+            }
           }
         }
         document.addEventListener("fullscreenchange", onFSChange);
