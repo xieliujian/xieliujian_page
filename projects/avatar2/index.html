@@ -329,6 +329,10 @@
           container.classList.remove("css-fullscreen");
           fullscreenBtn.innerHTML = "⛶";
           fullscreenBtn.title = "全屏";
+          // iOS 无法用 JS 强制旋转，提示用户手动转回竖屏
+          if (window.innerWidth > window.innerHeight) {
+            showToast("请将设备旋转回竖屏");
+          }
         }
 
         fullscreenBtn.onclick = function () {
