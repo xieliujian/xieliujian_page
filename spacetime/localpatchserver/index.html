@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>spacetime_localpatchserver — xieliujian</title>
+  <link rel="stylesheet" href="../../style.css" />
+  <style>
+    .lib-hero { max-width: 900px; margin: 0 auto; padding: 3rem 2rem 2rem; }
+    .lib-hero-header { display: flex; align-items: flex-start; justify-content: space-between; flex-wrap: wrap; gap: 1rem; margin-bottom: 1rem; }
+    .lib-hero-cta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.65rem;
+      align-items: center;
+      justify-content: flex-end;
+    }
+    .lib-hero-header h1 { font-size: 1.8rem; font-weight: 800; font-family: 'Consolas', monospace; }
+    .lib-hero-header .subtitle { color: var(--text-muted); font-size: 0.9rem; margin-top: 0.3rem; }
+    .gh-link { display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.45rem 1rem; border: 1px solid var(--border); border-radius: 6px; font-size: 0.85rem; color: var(--text); text-decoration: none; transition: border-color var(--transition), color var(--transition); flex-shrink: 0; }
+    .gh-link:hover { border-color: var(--accent); color: var(--accent); }
+    .lib-desc { color: var(--text-muted); font-size: 0.95rem; line-height: 1.7; max-width: 640px; margin-bottom: 1.5rem; }
+    .tag-group { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1.25rem; }
+    .tag { font-size: 0.78rem; padding: 0.25rem 0.7rem; border-radius: 4px; border: 1px solid var(--border); color: var(--text-muted); }
+    .tag.hl { background: rgba(88,166,255,0.1); border-color: rgba(88,166,255,0.3); color: var(--accent); }
+
+    .lib-pages { min-height: 50vh; }
+    .lib-tabbar {
+      position: sticky;
+      top: 56px;
+      z-index: 90;
+      display: flex;
+      justify-content: center;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      padding: 0.55rem 2rem;
+      background: rgba(13, 17, 23, 0.92);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--border);
+    }
+    .lib-tab {
+      appearance: none;
+      font: inherit;
+      cursor: pointer;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--text-muted);
+      padding: 0.45rem 1.35rem;
+      border-radius: 999px;
+      font-size: 0.88rem;
+      transition: border-color var(--transition), color var(--transition), background var(--transition), box-shadow var(--transition);
+    }
+    .lib-tab:hover { color: var(--text); border-color: var(--text-muted); }
+    .lib-tab:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+    .lib-tab[aria-selected="true"] {
+      border-color: rgba(88, 166, 255, 0.55);
+      color: var(--accent);
+      background: rgba(88, 166, 255, 0.1);
+      box-shadow: 0 0 0 1px rgba(88, 166, 255, 0.12);
+    }
+    .lib-tabpanel { padding-bottom: 4rem; }
+    .lib-tabpanel[hidden] { display: none !important; }
+
+    .demo-block-inner { max-width: 900px; margin: 0 auto; padding: 1.75rem 2rem 5rem; }
+    .demo-block-inner .section-major-header { margin-bottom: 1.25rem; }
+    .section-major-header {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 0.75rem 1rem;
+      margin-bottom: 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .section-major-header h2 { font-size: 1.2rem; font-weight: 700; margin: 0; }
+    .demo-block-inner .empty {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      padding: 2rem;
+      text-align: center;
+      background: var(--surface);
+      border: 1px dashed var(--border);
+      border-radius: var(--radius);
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <a class="logo" href="../../">xieliujian</a>
+    <a class="back-link" href="../../#libs">← 返回主页</a>
+  </nav>
+
+  <div class="lib-hero">
+    <div class="lib-hero-header">
+      <div>
+        <h1>📡 spacetime_localpatchserver</h1>
+        <p class="subtitle">本地补丁 / 热更资源服务 · 独立仓库</p>
+      </div>
+      <div class="lib-hero-cta">
+        <a class="gh-link" href="https://github.com/xieliujian/spacetime_localpatchserver" target="_blank" rel="noopener">
+          <svg width="15" height="15" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+          查看源码
+        </a>
+        <a class="gh-link" href="https://github.com/xieliujian/spacetime_localpatchserver/blob/main/README.md" target="_blank" rel="noopener">README 文档</a>
+      </div>
+    </div>
+    <p class="lib-desc">用于在本地或内网环境托管增量补丁与资源清单，配合 Unity 客户端做热更新流程验证。说明文档请在 GitHub 仓库查看 <strong>README.md</strong>（上方「README 文档」链接）。</p>
+    <div class="tag-group">
+      <span class="tag hl">热更</span>
+      <span class="tag hl">本地服务</span>
+      <span class="tag">spacetime-unity</span>
+      <span class="tag">更新 2026-04-19</span>
+    </div>
+  </div>
+
+  <!-- 与 spacetime/core 一致：文档分页暂不启用；恢复时参考 core/index.html -->
+  <div class="lib-pages">
+    <div class="lib-tabbar" role="tablist" aria-label="内容分页" hidden aria-hidden="true">
+      <button type="button" class="lib-tab" role="tab" id="tab-doc" aria-controls="panel-doc" aria-selected="false" tabindex="-1" hidden>文档</button>
+      <button type="button" class="lib-tab" role="tab" id="tab-demos" aria-controls="panel-demos" aria-selected="true" tabindex="0">Demo集</button>
+    </div>
+
+    <div id="panel-doc" class="lib-tabpanel lib-tabpanel--doc" role="tabpanel" aria-labelledby="tab-doc" hidden aria-hidden="true"></div>
+
+    <div id="panel-demos" class="lib-tabpanel" role="tabpanel" aria-labelledby="tab-demos">
+      <div class="demo-block-inner">
+        <div class="section-major-header">
+          <h2>Demo集</h2>
+        </div>
+        <div class="empty">暂无 Demo · 后续会添加功能使用示例</div>
+      </div>
+    </div>
+  </div>
+
+  <footer><p>© 2026 xieliujian</p></footer>
+</body>
+</html>
