@@ -144,6 +144,68 @@ a:hover { color: var(--accent-hover); }
   border: none;
 }
 
+/* 库列表（紧凑行） */
+.lib-list {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+.lib-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.95rem 1.25rem;
+  background: var(--surface);
+  text-decoration: none;
+  color: var(--text);
+  transition: background var(--transition), border-color var(--transition);
+}
+.lib-row + .lib-row { border-top: 1px solid var(--border); }
+.lib-row:hover { background: #1c2128; }
+.lib-row:hover .lib-name { color: var(--accent); }
+.lib-row:hover .lib-arrow { color: var(--accent); transform: translateX(3px); }
+
+.lib-icon { font-size: 1.4rem; flex-shrink: 0; width: 1.8rem; text-align: center; }
+
+.lib-info { flex: 1; min-width: 0; }
+.lib-name {
+  font-size: 0.95rem;
+  font-weight: 700;
+  font-family: 'Consolas', 'SF Mono', monospace;
+  margin-bottom: 0.2rem;
+  transition: color var(--transition);
+}
+.lib-desc { font-size: 0.82rem; color: var(--text-muted); line-height: 1.4; }
+
+.lib-tags {
+  display: flex;
+  gap: 0.4rem;
+  flex-shrink: 0;
+}
+.lib-tag {
+  font-size: 0.72rem;
+  padding: 0.18rem 0.5rem;
+  border-radius: 4px;
+  background: rgba(88,166,255,0.08);
+  border: 1px solid rgba(88,166,255,0.2);
+  color: var(--accent);
+  white-space: nowrap;
+}
+
+.lib-arrow {
+  font-size: 1rem;
+  color: var(--text-muted);
+  flex-shrink: 0;
+  transition: color var(--transition), transform var(--transition);
+}
+
+@media (max-width: 540px) {
+  .lib-tags { display: none; }
+  .lib-desc { display: none; }
+}
+
 /* 页脚 */
 footer {
   text-align: center;
