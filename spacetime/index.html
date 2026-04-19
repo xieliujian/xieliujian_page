@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Spacetime 基础库 — xieliujian</title>
+  <link rel="stylesheet" href="../style.css" />
+  <style>
+    .page-header {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 3.5rem 2rem 1.5rem;
+    }
+    .page-header h1 { font-size: 2rem; font-weight: 800; margin-bottom: 0.5rem; }
+    .page-header p { color: var(--text-muted); font-size: 0.95rem; line-height: 1.6; max-width: 560px; }
+
+    .repo-list {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0.5rem 2rem 5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .repo-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.25rem 1.5rem;
+      display: flex;
+      align-items: flex-start;
+      gap: 1.25rem;
+      transition: border-color var(--transition), transform var(--transition);
+      text-decoration: none;
+      color: var(--text);
+    }
+    .repo-card:hover {
+      border-color: var(--accent);
+      transform: translateX(4px);
+      color: var(--text);
+    }
+
+    .repo-icon {
+      font-size: 1.75rem;
+      flex-shrink: 0;
+      width: 2.5rem;
+      text-align: center;
+      margin-top: 0.1rem;
+    }
+
+    .repo-info { flex: 1; min-width: 0; }
+    .repo-name {
+      font-size: 1rem;
+      font-weight: 700;
+      font-family: 'Consolas', 'SF Mono', monospace;
+      color: var(--accent);
+      margin-bottom: 0.35rem;
+    }
+    .repo-desc {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+      margin-bottom: 0.75rem;
+    }
+
+    .repo-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      align-items: center;
+    }
+    .lang-dot {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+    .lang-dot::before {
+      content: '';
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .lang-dot.csharp::before { background: #178600; }
+    .lang-dot.python::before { background: #3572A5; }
+
+    .meta-tag {
+      font-size: 0.75rem;
+      padding: 0.15rem 0.55rem;
+      border-radius: 4px;
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+    }
+
+    .repo-arrow {
+      font-size: 1.1rem;
+      color: var(--text-muted);
+      flex-shrink: 0;
+      margin-top: 0.2rem;
+      transition: color var(--transition), transform var(--transition);
+    }
+    .repo-card:hover .repo-arrow {
+      color: var(--accent);
+      transform: translateX(3px);
+    }
+
+    /* 架构说明 */
+    .arch-section {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 2rem 2rem;
+    }
+    .arch-block {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.25rem 1.5rem;
+    }
+    .arch-block h2 {
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-muted);
+      margin-bottom: 1rem;
+    }
+    .arch-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 0.75rem;
+    }
+    .arch-item {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0.75rem 1rem;
+    }
+    .arch-item .arch-name {
+      font-size: 0.82rem;
+      font-family: 'Consolas', monospace;
+      color: var(--accent);
+      margin-bottom: 0.3rem;
+    }
+    .arch-item .arch-role {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      line-height: 1.4;
+    }
+
+    .divider {
+      max-width: 900px;
+      margin: 0 auto 1.5rem;
+      padding: 0 2rem;
+      border: none;
+      border-top: 1px solid var(--border);
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="navbar">
+    <a class="logo" href="../">xieliujian</a>
+    <a class="back-link" href="../">← 返回作品集</a>
+  </nav>
+
+  <div class="page-header">
+    <h1>Spacetime 游戏基础库</h1>
+    <p>为 Unity 项目构建的一套模块化基础框架，涵盖核心运行时、编辑器工具、特效系统和配表工具，所有模块均以 UPM 包形式组织，可按需引入。</p>
+  </div>
+
+  <!-- 架构说明 -->
+  <div class="arch-section">
+    <div class="arch-block">
+      <h2>模块架构</h2>
+      <div class="arch-grid">
+        <div class="arch-item">
+          <div class="arch-name">spacetime.core</div>
+          <div class="arch-role">核心运行时：基础系统、管理器、通用接口</div>
+        </div>
+        <div class="arch-item">
+          <div class="arch-name">spacetime.tool</div>
+          <div class="arch-role">编辑器工具：Unity Editor 扩展与辅助工具</div>
+        </div>
+        <div class="arch-item">
+          <div class="arch-name">spacetime.effect</div>
+          <div class="arch-role">特效系统：粒子、Shader 特效封装</div>
+        </div>
+        <div class="arch-item">
+          <div class="arch-name">spacetime_table</div>
+          <div class="arch-role">配表工具：Excel/CSV 转 Unity 数据资产</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider" />
+
+  <!-- 仓库列表 -->
+  <div class="repo-list">
+
+    <a class="repo-card" href="https://github.com/xieliujian/com.spacetime.core" target="_blank" rel="noopener">
+      <div class="repo-icon">⚙️</div>
+      <div class="repo-info">
+        <div class="repo-name">com.spacetime.core</div>
+        <div class="repo-desc">游戏核心运行时基础库。提供基础框架、通用管理器、生命周期接口等底层能力，是其他 Spacetime 模块的依赖基础。</div>
+        <div class="repo-meta">
+          <span class="lang-dot csharp">C#</span>
+          <span class="meta-tag">UPM 包</span>
+          <span class="meta-tag">spacetime-unity</span>
+          <span class="meta-tag">更新 2026-04-19</span>
+        </div>
+      </div>
+      <div class="repo-arrow">→</div>
+    </a>
+
+    <a class="repo-card" href="https://github.com/xieliujian/com.spacetime.tool" target="_blank" rel="noopener">
+      <div class="repo-icon">🔧</div>
+      <div class="repo-info">
+        <div class="repo-name">com.spacetime.tool</div>
+        <div class="repo-desc">Unity 编辑器工具库。封装常用 Editor 扩展、Inspector 工具和构建辅助脚本，提升开发效率。</div>
+        <div class="repo-meta">
+          <span class="lang-dot csharp">C#</span>
+          <span class="meta-tag">UPM 包</span>
+          <span class="meta-tag">spacetime-unity</span>
+          <span class="meta-tag">更新 2026-04-14</span>
+        </div>
+      </div>
+      <div class="repo-arrow">→</div>
+    </a>
+
+    <a class="repo-card" href="https://github.com/xieliujian/com.spacetime.effect" target="_blank" rel="noopener">
+      <div class="repo-icon">✨</div>
+      <div class="repo-info">
+        <div class="repo-name">com.spacetime.effect</div>
+        <div class="repo-desc">游戏特效系统基础库。封装粒子系统管理、Shader 特效与后处理效果，提供统一的特效调用接口。</div>
+        <div class="repo-meta">
+          <span class="lang-dot csharp">C#</span>
+          <span class="meta-tag">UPM 包</span>
+          <span class="meta-tag">spacetime-unity</span>
+          <span class="meta-tag">⭐ 1</span>
+          <span class="meta-tag">更新 2026-04-14</span>
+        </div>
+      </div>
+      <div class="repo-arrow">→</div>
+    </a>
+
+    <a class="repo-card" href="https://github.com/xieliujian/spacetime_table" target="_blank" rel="noopener">
+      <div class="repo-icon">📊</div>
+      <div class="repo-info">
+        <div class="repo-name">spacetime_table</div>
+        <div class="repo-desc">Unity 配表工具。将 Excel / CSV 数据文件自动转换为 Unity 可读的数据资产，简化游戏数值配置流程。</div>
+        <div class="repo-meta">
+          <span class="lang-dot python">Python</span>
+          <span class="meta-tag">配表工具</span>
+          <span class="meta-tag">spacetime-unity</span>
+          <span class="meta-tag">更新 2026-03-28</span>
+        </div>
+      </div>
+      <div class="repo-arrow">→</div>
+    </a>
+
+  </div>
+
+  <footer>
+    <p>© 2026 xieliujian · Built with HTML &amp; CSS</p>
+  </footer>
+
+</body>
+</html>
