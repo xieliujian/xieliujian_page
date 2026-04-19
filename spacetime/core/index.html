@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>spacetime.core — xieliujian</title>
+  <link rel="stylesheet" href="../../style.css" />
+  <style>
+    .lib-hero { max-width: 900px; margin: 0 auto; padding: 3rem 2rem 2rem; }
+    .lib-hero-header { display: flex; align-items: flex-start; justify-content: space-between; flex-wrap: wrap; gap: 1rem; margin-bottom: 1rem; }
+    .lib-hero-header h1 { font-size: 1.8rem; font-weight: 800; font-family: 'Consolas', monospace; }
+    .lib-hero-header .subtitle { color: var(--text-muted); font-size: 0.9rem; margin-top: 0.3rem; }
+    .gh-link { display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.45rem 1rem; border: 1px solid var(--border); border-radius: 6px; font-size: 0.85rem; color: var(--text); text-decoration: none; transition: border-color var(--transition), color var(--transition); flex-shrink: 0; }
+    .gh-link:hover { border-color: var(--accent); color: var(--accent); }
+    .lib-desc { color: var(--text-muted); font-size: 0.95rem; line-height: 1.7; max-width: 640px; margin-bottom: 1.5rem; }
+    .tag-group { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 2.5rem; }
+    .tag { font-size: 0.78rem; padding: 0.25rem 0.7rem; border-radius: 4px; border: 1px solid var(--border); color: var(--text-muted); }
+    .tag.hl { background: rgba(88,166,255,0.1); border-color: rgba(88,166,255,0.3); color: var(--accent); }
+
+    .demo-section { max-width: 900px; margin: 0 auto; padding: 0 2rem 5rem; }
+    .demo-section h2 { font-size: 1.2rem; font-weight: 700; margin-bottom: 1.25rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--border); }
+    .demo-section .empty { color: var(--text-muted); font-size: 0.9rem; padding: 2rem; text-align: center; background: var(--surface); border: 1px dashed var(--border); border-radius: var(--radius); }
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <a class="logo" href="../../">xieliujian</a>
+    <a class="back-link" href="../../">← 返回作品集</a>
+  </nav>
+
+  <div class="lib-hero">
+    <div class="lib-hero-header">
+      <div>
+        <h1>⚙️ spacetime.core</h1>
+        <p class="subtitle">游戏核心运行时基础库 · Unity UPM 包</p>
+      </div>
+      <a class="gh-link" href="https://github.com/xieliujian/com.spacetime.core" target="_blank" rel="noopener">
+        <svg width="15" height="15" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+        查看源码
+      </a>
+    </div>
+    <p class="lib-desc">提供基础框架、通用管理器、生命周期接口等底层能力，是其他 Spacetime 模块的依赖基础。以 Unity Package Manager（UPM）包形式分发，可直接通过 Git URL 引入项目。</p>
+    <div class="tag-group">
+      <span class="tag hl">C#</span>
+      <span class="tag hl">UPM</span>
+      <span class="tag">spacetime-unity</span>
+      <span class="tag">更新 2026-04-19</span>
+    </div>
+  </div>
+
+  <div class="demo-section">
+    <h2>子 Demo</h2>
+    <div class="empty">暂无 Demo · 后续会添加功能使用示例</div>
+    <!-- 子 Demo 卡片示例（取消注释后使用）：
+    <div class="projects-grid">
+      <a class="project-card" href="demo-xxx/">
+        <img src="..." alt="Demo 名称" />
+        <div class="card-body">
+          <div class="card-title">Demo 名称</div>
+          <div class="card-desc">描述该 Demo 展示的功能点。</div>
+          <span class="card-tag">标签</span>
+        </div>
+      </a>
+    </div>
+    -->
+  </div>
+
+  <footer><p>© 2026 xieliujian</p></footer>
+</body>
+</html>
