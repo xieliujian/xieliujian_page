@@ -182,6 +182,15 @@
         return 'libs';
       }
 
+      function clampScrollToDocument() {
+        var doc = document.documentElement;
+        var h = Math.max(doc.scrollHeight, document.body ? document.body.scrollHeight : 0);
+        var maxY = Math.max(0, h - window.innerHeight);
+        if (window.scrollY > maxY) {
+          window.scrollTo(0, maxY);
+        }
+      }
+
       function setActivePage(view, scrollToBar) {
         ORDER.forEach(function (key) {
           var on = key === view;
@@ -196,7 +205,11 @@
         }
 
         if (scrollToBar && tabbar) {
-          tabbar.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          /* 等面板显隐参与布局后再处理滚动，避免长页→短页时 scroll 越界导致顶栏/Hero 相对视口乱跳 */
+          requestAnimationFrame(function () {
+            clampScrollToDocument();
+            tabbar.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'nearest' });
+          });
         }
       }
 

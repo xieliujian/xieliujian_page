@@ -12,7 +12,11 @@
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-html { scroll-behavior: smooth; }
+html {
+  scroll-behavior: smooth;
+  /* 避免页签切换后正文高度变化时滚动条显隐，导致整页（含顶栏 / Hero）横向错位 */
+  scrollbar-gutter: stable;
+}
 
 body {
   background: var(--bg);
@@ -38,7 +42,13 @@ a:hover { color: var(--accent-hover); }
   align-items: center;
   justify-content: space-between;
 }
-.navbar .logo { font-weight: 700; font-size: 1.1rem; color: var(--text); }
+.navbar .logo {
+  font-weight: 700;
+  font-size: 1.1rem;
+  line-height: 1.2;
+  color: var(--text);
+  white-space: nowrap;
+}
 .navbar .back-link { font-size: 0.9rem; }
 
 /* Hero 区域 */
@@ -48,7 +58,12 @@ a:hover { color: var(--accent-hover); }
   padding: 5rem 2rem 3rem;
   text-align: center;
 }
-.hero h1 { font-size: 2.5rem; font-weight: 800; margin-bottom: 0.75rem; }
+.hero h1 {
+  font-size: 2.5rem;
+  font-weight: 800;
+  line-height: 1.15;
+  margin-bottom: 0.75rem;
+}
 .hero p { font-size: 1.1rem; color: var(--text-muted); max-width: 480px; margin: 0 auto 1.5rem; }
 .hero .links { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
 .hero .links a {
@@ -70,13 +85,17 @@ a:hover { color: var(--accent-hover); }
   top: 56px;
   z-index: 90;
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
+  align-items: stretch;
   justify-content: center;
   gap: 0.45rem;
   padding: 0.55rem 2rem;
   background: rgba(13, 17, 23, 0.92);
   backdrop-filter: blur(8px);
   border-bottom: 1px solid var(--border);
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
 }
 
 .home-tab {
@@ -89,6 +108,13 @@ a:hover { color: var(--accent-hover); }
   padding: 0.45rem 0.95rem;
   border-radius: 999px;
   font-size: 0.82rem;
+  line-height: 1.25;
+  flex: 0 0 auto;
+  min-height: 2.65rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
   transition: border-color var(--transition), color var(--transition), background var(--transition), box-shadow var(--transition);
 }
 @media (min-width: 640px) {
