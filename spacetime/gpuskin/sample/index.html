@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="com.spacetime.gpuskin.sample WebGL 演示" />
   <title>GPU Skin Sample — spacetime.gpuskin</title>
   <link rel="stylesheet" href="../../../style.css" />
   <style>
@@ -21,7 +22,6 @@
 
     .webgl-block { max-width: 960px; margin: 0 auto 2.5rem; padding: 0 1rem; }
     .webgl-block h2 { font-size: 1.1rem; font-weight: 700; margin-bottom: 0.5rem; }
-    .webgl-block .webgl-hint { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1rem; line-height: 1.5; }
     .webgl-section { margin-bottom: 0.5rem; }
     .webgl-section .section-label {
       font-size: 0.8rem; font-weight: 600; text-transform: uppercase;
@@ -118,6 +118,7 @@
 
   <script>
     (function () {
+      // 与 projects/avatar2、effect/boxprojectedcubemap 相同：同页加载本目录 webgl/Build（由仓库 main 同步）
       var webglBase = "webgl";
       var buildUrl = webglBase + "/Build";
       var loaderUrl = buildUrl + "/webgl.loader.js";
