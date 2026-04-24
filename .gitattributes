@@ -1,0 +1,32 @@
+# 全局默认：文本文件自动处理行尾
+* text=auto
+
+# Unity WebGL 构建产物 —— 强制以二进制模式存储，禁止行尾转换
+*.wasm binary
+*.data binary
+*.unityweb binary
+*.bundle binary
+
+# 图片/音频/字体等媒体文件
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.webp binary
+*.mp4 binary
+*.webm binary
+*.ogg binary
+*.mp3 binary
+*.wav binary
+*.ttf binary
+*.woff binary
+*.woff2 binary
+*.eot binary
+
+# 压缩包
+*.zip binary
+*.gz binary
+*.br binary
+*.7z binary
+*.unitypackage binary
