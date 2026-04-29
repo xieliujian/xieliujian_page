@@ -167,7 +167,7 @@
 
   <div class="page-header">
     <h1>Spacetime 游戏基础库</h1>
-    <p>为 Unity 项目构建的一套模块化基础框架，涵盖核心运行时、GPU 蒙皮、策略地图（SLG）、编辑器工具、特效系统、配表工具与本地补丁服务；其中运行时与编辑器相关模块以 UPM 包形式组织，可按需引入。</p>
+    <p>为 Unity 项目构建的一套模块化基础框架，涵盖核心运行时、GPU 蒙皮、策略地图（SLG）、编辑器工具、特效系统、PVS 可见性、配表工具与本地补丁服务；其中运行时与编辑器相关模块以 UPM 包形式组织，可按需引入。</p>
     <p>各子模块的详细说明与使用方式请在其 GitHub 仓库查看 <strong>README.md</strong>；子页面布局与 <code>com.spacetime.core</code> 子页一致，提供「查看源码」「README 文档」与「Demo集」占位。</p>
   </div>
 
@@ -195,6 +195,14 @@
         <div class="arch-item">
           <div class="arch-name">com.spacetime.effect</div>
           <div class="arch-role">特效系统：粒子、Shader 特效封装</div>
+        </div>
+        <div class="arch-item">
+          <div class="arch-name">com.spacetime.pvs</div>
+          <div class="arch-role">PVS：潜在可见集数据与运行时基座</div>
+        </div>
+        <div class="arch-item">
+          <div class="arch-name">com.spacetime.pvswrap</div>
+          <div class="arch-role">PVS 封装：Unity 集成与调用层</div>
         </div>
         <div class="arch-item">
           <div class="arch-name">spacetime_table</div>
@@ -286,6 +294,36 @@
           <span class="meta-tag">spacetime-unity</span>
           <span class="meta-tag">⭐ 1</span>
           <span class="meta-tag">更新 2026-04-14</span>
+        </div>
+      </div>
+      <div class="repo-arrow">→</div>
+    </a>
+
+    <a class="repo-card" href="https://github.com/xieliujian/com.spacetime.pvs" target="_blank" rel="noopener">
+      <div class="repo-icon">🔲</div>
+      <div class="repo-info">
+        <div class="repo-name">com.spacetime.pvs</div>
+        <div class="repo-desc">潜在可见集（PVS）基础包。提供可见性相关的数据结构与运行时支撑，适用于大场景遮挡与查询。</div>
+        <div class="repo-meta">
+          <span class="lang-dot csharp">C#</span>
+          <span class="meta-tag">UPM 包</span>
+          <span class="meta-tag">spacetime-unity</span>
+          <span class="meta-tag">更新 2026-04-26</span>
+        </div>
+      </div>
+      <div class="repo-arrow">→</div>
+    </a>
+
+    <a class="repo-card" href="https://github.com/xieliujian/com.spacetime.pvswrap" target="_blank" rel="noopener">
+      <div class="repo-icon">🔗</div>
+      <div class="repo-info">
+        <div class="repo-name">com.spacetime.pvswrap</div>
+        <div class="repo-desc">PVS 封装层。在 Unity 中集成 com.spacetime.pvs，简化项目接入与使用。</div>
+        <div class="repo-meta">
+          <span class="lang-dot csharp">C#</span>
+          <span class="meta-tag">UPM 包</span>
+          <span class="meta-tag">spacetime-unity</span>
+          <span class="meta-tag">更新 2026-04-26</span>
         </div>
       </div>
       <div class="repo-arrow">→</div>
