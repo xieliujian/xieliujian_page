@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SLG Sample — com.spacetime.slg — xieliujian</title>
+  <link rel="stylesheet" href="../../style.css" />
+  <style>
+    .project-hero {
+      max-width: 960px;
+      margin: 2.5rem auto 0;
+      padding: 0 1.5rem 4rem;
+    }
+    .project-hero-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-bottom: 1.75rem;
+    }
+    .project-hero-header h1 { font-size: 1.8rem; font-weight: 800; line-height: 1.2; }
+    .project-hero-header .subtitle { color: var(--text-muted); font-size: 0.95rem; margin-top: 0.35rem; }
+    .project-hero-header .gh-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      padding: 0.5rem 1rem;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      font-size: 0.875rem;
+      color: var(--text);
+      white-space: nowrap;
+      transition: border-color var(--transition), color var(--transition);
+      flex-shrink: 0;
+      text-decoration: none;
+    }
+    .project-hero-header .gh-link:hover { border-color: var(--accent); color: var(--accent); }
+
+    .tag-group { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 2rem; }
+    .tag { font-size: 0.78rem; padding: 0.25rem 0.7rem; border-radius: 4px; border: 1px solid var(--border); color: var(--text-muted); }
+    .tag.highlight { background: rgba(88,166,255,0.1); border-color: rgba(88,166,255,0.3); color: var(--accent); }
+
+    .webgl-section { margin-bottom: 2.5rem; }
+    .webgl-section .section-label {
+      font-size: 0.8rem; font-weight: 600; text-transform: uppercase;
+      letter-spacing: 0.08em; color: var(--text-muted); margin-bottom: 0.75rem;
+    }
+    .unity-player-wrap {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 960 / 600;
+      background: #000;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      overflow: hidden;
+    }
+    #unity-canvas { width: 100%; height: 100%; display: block; background: #000; }
+
+    #unity-loading-bar {
+      position: absolute; inset: 0;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center; gap: 1.25rem;
+      background: #0d1117;
+    }
+    .loading-logo { font-size: 2.5rem; }
+    .loading-title { font-size: 0.9rem; color: var(--text-muted); }
+    #unity-progress-bar-empty {
+      width: 220px; height: 5px;
+      border-radius: 3px; background: var(--border); overflow: hidden;
+    }
+    #unity-progress-bar-full {
+      height: 100%; width: 0%;
+      background: var(--accent); border-radius: 3px;
+      transition: width 0.15s ease;
+    }
+
+    #unity-warning { position: absolute; top: 0; left: 0; right: 0; z-index: 10; }
+
+    #unity-fullscreen-button {
+      position: absolute; bottom: 10px; right: 10px;
+      width: 36px; height: 36px;
+      background: rgba(0,0,0,0.6);
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 6px; cursor: pointer;
+      color: #fff; font-size: 1rem;
+      display: flex; align-items: center; justify-content: center;
+      transition: background var(--transition);
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
+    }
+    #unity-fullscreen-button:hover,
+    #unity-fullscreen-button:active { background: rgba(88,166,255,0.45); }
+    @media (max-width: 640px) {
+      #unity-fullscreen-button { width: 44px; height: 44px; font-size: 1.2rem; }
+    }
+
+    .unity-player-wrap.css-fullscreen {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      z-index: 9999;
+      border-radius: 0;
+      border: none;
+      aspect-ratio: unset;
+    }
+    .unity-player-wrap.css-fullscreen #unity-canvas {
+      width: 100%;
+      height: 100%;
+    }
+
+    .fs-toast {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(0,0,0,0.75);
+      color: #fff;
+      padding: 0.6rem 1.25rem;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      z-index: 10000;
+      pointer-events: none;
+      opacity: 1;
+      transition: opacity 0.4s ease;
+      white-space: nowrap;
+    }
+    .fs-toast.hide { opacity: 0; }
+
+    .content-block {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.25rem 1.5rem;
+      margin-bottom: 1.25rem;
+    }
+    .content-block h2 {
+      font-size: 0.8rem; font-weight: 600; text-transform: uppercase;
+      letter-spacing: 0.08em; color: var(--text-muted); margin-bottom: 0.9rem;
+    }
+    .content-block p { font-size: 0.9rem; color: var(--text-muted); line-height: 1.7; }
+    .content-block p + p { margin-top: 0.6rem; }
+
+    .feature-list { list-style: none; display: flex; flex-direction: column; gap: 0.55rem; }
+    .feature-list li { font-size: 0.9rem; color: var(--text-muted); display: flex; align-items: flex-start; gap: 0.6rem; line-height: 1.5; }
+    .feature-list li::before { content: '✦'; color: var(--accent); font-size: 0.65rem; margin-top: 0.28rem; flex-shrink: 0; }
+  </style>
+</head>
+<body>
+
+  <nav class="navbar">
+    <a class="logo" href="../../">xieliujian</a>
+    <a class="back-link" href="../../#works">← 返回主页</a>
+  </nav>
+
+  <div class="project-hero">
+
+    <div class="project-hero-header">
+      <div>
+        <h1>SLG Sample</h1>
+        <p class="subtitle">com.spacetime.slg.sample · 策略地图示例 WebGL</p>
+      </div>
+      <a class="gh-link" href="https://github.com/xieliujian/com.spacetime.slg.sample" target="_blank" rel="noopener">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+          <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38
+            0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13
+            -.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87
+            2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95
+            0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12
+            0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04
+            2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15
+            0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48
+            0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/>
+        </svg>
+        查看源码
+      </a>
+    </div>
+
+    <div class="tag-group">
+      <span class="tag highlight">Unity</span>
+      <span class="tag highlight">C#</span>
+      <span class="tag highlight">SLG</span>
+      <span class="tag">网格地形</span>
+      <span class="tag">策略地图</span>
+    </div>
+
+    <div class="webgl-section">
+      <div class="section-label">在线体验</div>
+      <div class="unity-player-wrap" id="unity-container">
+        <canvas id="unity-canvas" tabindex="-1"></canvas>
+
+        <div id="unity-loading-bar">
+          <div class="loading-logo">🎮</div>
+          <div class="loading-title">正在加载 SLG Sample…</div>
+          <div id="unity-progress-bar-empty">
+            <div id="unity-progress-bar-full"></div>
+          </div>
+        </div>
+
+        <div id="unity-warning"></div>
+        <button type="button" id="unity-fullscreen-button" title="全屏">⛶</button>
+      </div>
+    </div>
+
+    <div class="content-block">
+      <h2>关于本 Demo</h2>
+      <p>本示例用于演示 <strong>com.spacetime.slg</strong> 策略地图能力：网格地形与信息层、场景线段与动态对象等。构建产物与仓库 <a href="https://github.com/xieliujian/com.spacetime.slg.sample" target="_blank" rel="noopener">com.spacetime.slg.sample</a> 中 WebGL 输出一致。</p>
+    </div>
+
+    <div class="content-block">
+      <h2>操作说明</h2>
+      <ul class="feature-list">
+        <li>运行后以示例场景交互为主（具体按键以示例内设置为准）</li>
+        <li>右下角按钮可全屏；移动端若系统限制全屏 API，可尝试旋转设备获得更佳视口</li>
+      </ul>
+    </div>
+
+  </div>
+
+  <footer>
+    <p>© 2026 xieliujian</p>
+  </footer>
+
+  <script>
+    var buildUrl = "Build";
+    var loaderUrl = buildUrl + "/webgl.loader.js";
+    var config = {
+      dataUrl:            buildUrl + "/webgl.data",
+      frameworkUrl:       buildUrl + "/webgl.framework.js",
+      codeUrl:            buildUrl + "/webgl.wasm",
+      streamingAssetsUrl: "StreamingAssets",
+      companyName:        "DefaultCompany",
+      productName:        "My project",
+      productVersion:     "0.1"
+    };
+
+    function showToast(msg) {
+      var t = document.createElement("div");
+      t.className = "fs-toast";
+      t.textContent = msg;
+      document.body.appendChild(t);
+      setTimeout(function () {
+        t.classList.add("hide");
+        setTimeout(function () { t.remove(); }, 400);
+      }, 2500);
+    }
+
+    var canvas        = document.getElementById("unity-canvas");
+    var loadingBar    = document.getElementById("unity-loading-bar");
+    var progressFull  = document.getElementById("unity-progress-bar-full");
+    var fullscreenBtn = document.getElementById("unity-fullscreen-button");
+
+    var script = document.createElement("script");
+    script.src = loaderUrl;
+    script.onload = function () {
+      createUnityInstance(canvas, config, function (progress) {
+        progressFull.style.width = (100 * progress) + "%";
+      }).then(function (instance) {
+        loadingBar.style.display = "none";
+
+        var container = document.getElementById("unity-container");
+
+        var isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) ||
+          (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+
+        function enterCSSFullscreen() {
+          container.classList.add("css-fullscreen");
+          fullscreenBtn.innerHTML = "✕";
+          fullscreenBtn.title = "退出全屏";
+          var isLocked = screen.orientation && screen.orientation.type &&
+            screen.orientation.type.indexOf("portrait") !== -1 &&
+            window.innerWidth < window.innerHeight;
+          if (isLocked) {
+            showToast("请在控制中心关闭方向锁定，再旋转至横屏");
+          } else {
+            showToast("请将设备旋转至横屏");
+          }
+        }
+        function exitCSSFullscreen() {
+          container.classList.remove("css-fullscreen");
+          fullscreenBtn.innerHTML = "⛶";
+          fullscreenBtn.title = "全屏";
+          if (window.innerWidth > window.innerHeight) {
+            showToast("请将设备旋转回竖屏");
+          }
+        }
+
+        fullscreenBtn.onclick = function () {
+          if (isIOS) {
+            if (container.classList.contains("css-fullscreen")) {
+              exitCSSFullscreen();
+            } else {
+              enterCSSFullscreen();
+            }
+            return;
+          }
+
+          var isFullscreen = !!(
+            document.fullscreenElement || document.webkitFullscreenElement
+          );
+          if (isFullscreen) {
+            var exitFn = document.exitFullscreen || document.webkitExitFullscreen;
+            if (exitFn) exitFn.call(document);
+          } else {
+            var reqFn = container.requestFullscreen || container.webkitRequestFullscreen;
+            if (reqFn) {
+              reqFn.call(container).then(function () {
+                if (screen.orientation && screen.orientation.lock) {
+                  screen.orientation.lock("landscape").catch(function () {});
+                }
+              }).catch(function () {
+                instance.SetFullscreen(1);
+              });
+            } else {
+              instance.SetFullscreen(1);
+            }
+          }
+        };
+
+        function onFSChange() {
+          var isFull = !!(document.fullscreenElement || document.webkitFullscreenElement);
+          fullscreenBtn.innerHTML = isFull ? "✕" : "⛶";
+          if (!isFull && screen.orientation) {
+            if (screen.orientation.lock) {
+              screen.orientation.lock("portrait").catch(function () {}).finally(function () {
+                screen.orientation.unlock();
+              });
+            } else if (screen.orientation.unlock) {
+              screen.orientation.unlock();
+            }
+          }
+        }
+        document.addEventListener("fullscreenchange", onFSChange);
+        document.addEventListener("webkitfullscreenchange", onFSChange);
+
+      }).catch(function (msg) {
+        loadingBar.innerHTML =
+          '<div style="color:#f85149;padding:2rem;text-align:center;">' +
+          '<div style="font-size:2rem;margin-bottom:0.5rem;">⚠️</div>' +
+          '<div>' + msg + '</div></div>';
+      });
+    };
+    document.head.appendChild(script);
+  </script>
+
+</body>
+
+</html>
