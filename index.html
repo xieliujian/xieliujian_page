@@ -22,9 +22,48 @@
     </div>
 
     <div id="panel-libs" class="home-tabpanel" role="tabpanel" aria-labelledby="tab-libs">
-      <section class="section section--home-tab">
+      <section class="section section--home-tab section--lib-split-wrap">
         <h2 class="visually-hidden">游戏基础库</h2>
-        <div class="lib-list">
+
+        <div class="lib-split">
+          <div
+            class="lib-split-tabs"
+            role="tablist"
+            aria-label="游戏基础库分类"
+            aria-orientation="vertical"
+          >
+            <button
+              type="button"
+              class="lib-split-tab"
+              role="tab"
+              id="lib-tab-upm"
+              aria-controls="lib-panel-upm"
+              aria-selected="true"
+              tabindex="0"
+            >
+              Unity UPM 包
+            </button>
+            <button
+              type="button"
+              class="lib-split-tab"
+              role="tab"
+              id="lib-tab-tools"
+              aria-controls="lib-panel-tools"
+              aria-selected="false"
+              tabindex="-1"
+            >
+              游戏工具
+            </button>
+          </div>
+
+          <div class="lib-split-panels">
+        <div
+          class="lib-split-panel"
+          id="lib-panel-upm"
+          role="tabpanel"
+          aria-labelledby="lib-tab-upm"
+        >
+          <div class="lib-list">
 
           <a class="lib-row" href="spacetime/core/">
             <div class="lib-icon">⚙️</div>
@@ -117,6 +156,18 @@
             <div class="lib-arrow">→</div>
           </a>
 
+          </div>
+        </div>
+
+        <div
+          class="lib-split-panel"
+          id="lib-panel-tools"
+          role="tabpanel"
+          aria-labelledby="lib-tab-tools"
+          hidden
+        >
+          <div class="lib-list">
+
           <a class="lib-row" href="spacetime/table/">
             <div class="lib-icon">📊</div>
             <div class="lib-info">
@@ -143,6 +194,9 @@
             <div class="lib-arrow">→</div>
           </a>
 
+          </div>
+        </div>
+          </div>
         </div>
       </section>
     </div>
@@ -208,7 +262,6 @@
   <script>
     (function () {
       var ORDER = ['libs', 'works', 'plugins'];
-      var HASH = { libs: '#libs', works: '#works', plugins: '#plugins' };
 
       var tabLibs = document.getElementById('tab-libs');
       var tabWorks = document.getElementById('tab-works');
@@ -218,14 +271,39 @@
       var panelPlugins = document.getElementById('panel-plugins');
       var tabbar = document.querySelector('.home-tabbar');
 
+      var libTabUpm = document.getElementById('lib-tab-upm');
+      var libTabTools = document.getElementById('lib-tab-tools');
+      var libPanelUpm = document.getElementById('lib-panel-upm');
+      var libPanelTools = document.getElementById('lib-panel-tools');
+      var libSplitTabbar = document.querySelector('.lib-split-tabs');
+
       var tabEl = { libs: tabLibs, works: tabWorks, plugins: tabPlugins };
       var panelEl = { libs: panelLibs, works: panelWorks, plugins: panelPlugins };
 
-      function readHashView() {
+      function parseHash() {
         var h = location.hash.slice(1).toLowerCase();
-        if (h === 'works' || h === 'portfolio') return 'works';
-        if (h === 'plugins') return 'plugins';
-        return 'libs';
+        if (h === 'works' || h === 'portfolio') return { view: 'works', libSub: 'upm' };
+        if (h === 'plugins') return { view: 'plugins', libSub: 'upm' };
+        if (h === 'libs-tools') return { view: 'libs', libSub: 'tools' };
+        if (h === 'libs-upm' || h === 'libs') return { view: 'libs', libSub: 'upm' };
+        return { view: 'libs', libSub: 'upm' };
+      }
+
+      function formatHash(view, libSub) {
+        if (view === 'works') return '#works';
+        if (view === 'plugins') return '#plugins';
+        return libSub === 'tools' ? '#libs-tools' : '#libs-upm';
+      }
+
+      function setLibSubTabs(sub) {
+        if (!libTabUpm || !libTabTools || !libPanelUpm || !libPanelTools) return;
+        var upm = sub === 'upm';
+        libTabUpm.setAttribute('aria-selected', upm ? 'true' : 'false');
+        libTabUpm.tabIndex = upm ? 0 : -1;
+        libTabTools.setAttribute('aria-selected', upm ? 'false' : 'true');
+        libTabTools.tabIndex = upm ? -1 : 0;
+        libPanelUpm.hidden = !upm;
+        libPanelTools.hidden = upm;
       }
 
       function clampScrollToDocument() {
@@ -237,7 +315,18 @@
         }
       }
 
-      function setActivePage(view, scrollToBar) {
+      function setActivePage(view, scrollToBar, libSubOverride) {
+        var parsedForLib = parseHash();
+        var libSubEffective = 'upm';
+        if (view === 'libs') {
+          if (typeof libSubOverride === 'string') {
+            libSubEffective = libSubOverride;
+          } else if (parsedForLib.view === 'libs') {
+            libSubEffective = parsedForLib.libSub;
+          }
+          setLibSubTabs(libSubEffective);
+        }
+
         ORDER.forEach(function (key) {
           var on = key === view;
           tabEl[key].setAttribute('aria-selected', on ? 'true' : 'false');
@@ -245,13 +334,12 @@
           panelEl[key].hidden = !on;
         });
 
-        var next = HASH[view] || HASH.libs;
+        var next = formatHash(view, libSubEffective);
         if (location.hash !== next) {
           history.replaceState(null, '', next);
         }
 
         if (scrollToBar && tabbar) {
-          /* 等面板显隐参与布局后再处理滚动，避免长页→短页时 scroll 越界导致顶栏/Hero 相对视口乱跳 */
           requestAnimationFrame(function () {
             clampScrollToDocument();
             tabbar.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'nearest' });
@@ -269,6 +357,10 @@
         return ORDER[(i + delta + ORDER.length) % ORDER.length];
       }
 
+      function currentTopView() {
+        return parseHash().view;
+      }
+
       tabLibs.addEventListener('click', function () {
         setActivePage('libs', true);
         tabLibs.focus();
@@ -282,13 +374,40 @@
         tabPlugins.focus();
       });
 
+      if (libTabUpm && libTabTools) {
+        libTabUpm.addEventListener('click', function () {
+          setActivePage('libs', true, 'upm');
+          libTabUpm.focus();
+        });
+        libTabTools.addEventListener('click', function () {
+          setActivePage('libs', true, 'tools');
+          libTabTools.focus();
+        });
+      }
+
+      if (libSplitTabbar && libTabUpm && libTabTools) {
+        libSplitTabbar.addEventListener('keydown', function (e) {
+          if (panelLibs.hidden) return;
+          if (e.key === 'ArrowDown') {
+            e.preventDefault();
+            if (document.activeElement === libTabUpm) libTabTools.focus();
+            else libTabUpm.focus();
+          } else if (e.key === 'ArrowUp') {
+            e.preventDefault();
+            if (document.activeElement === libTabTools) libTabUpm.focus();
+            else libTabTools.focus();
+          }
+        });
+      }
+
       window.addEventListener('hashchange', function () {
-        setActivePage(readHashView(), true);
+        var p = parseHash();
+        setActivePage(p.view, true, p.view === 'libs' ? p.libSub : undefined);
       });
 
       if (tabbar) {
         tabbar.addEventListener('keydown', function (e) {
-          var current = readHashView();
+          var current = currentTopView();
           if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
             e.preventDefault();
             var next = neighbor(current, 1);
@@ -311,7 +430,8 @@
         });
       }
 
-      setActivePage(readHashView(), false);
+      var initial = parseHash();
+      setActivePage(initial.view, false, initial.view === 'libs' ? initial.libSub : undefined);
     })();
   </script>
 </body>
