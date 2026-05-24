@@ -85,11 +85,36 @@
     }
     .lib-hero .related {
       margin-top: 0.5rem;
+      margin-bottom: 1rem;
       font-size: 0.88rem;
       color: var(--text-muted);
     }
     .lib-hero .related a { color: var(--accent); text-decoration: none; }
     .lib-hero .related a:hover { text-decoration: underline; }
+    .demo-block-inner .lib-list { margin-top: 0.25rem; }
+    .demo-block-inner .lib-row {
+      align-items: center;
+      gap: 1.15rem 1.25rem;
+      padding: 1.1rem 1.35rem;
+      min-height: 5.5rem;
+    }
+    .demo-block-inner .lib-info .lib-name { font-size: 1.02rem; }
+    .demo-block-inner .lib-info .lib-desc { font-size: 0.88rem; line-height: 1.45; }
+    .demo-block-inner .lib-thumb {
+      flex-shrink: 0;
+      width: clamp(7.75rem, 26vw, 12.5rem);
+      aspect-ratio: 16 / 9;
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      background: var(--bg);
+    }
+    .demo-block-inner .lib-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
   </style>
 </head>
 <body>
@@ -137,7 +162,27 @@
         <div class="section-major-header">
           <h2>Demo集</h2>
         </div>
-        <div class="empty">暂无 WebGL / 示例入口 · 后续可在此挂接 Demo</div>
+        <div class="lib-list" role="list">
+          <a class="lib-row" href="sample/" role="listitem">
+            <div class="lib-thumb">
+              <img
+                src="https://raw.githubusercontent.com/xieliujian/com.spacetime.pvs.sample/main/readme/pvs_demo_head.png"
+                alt="PVS Sample 演示：PVS 可见性剔除场景"
+                loading="lazy"
+                decoding="async"
+              />
+            </div>
+            <div class="lib-info">
+              <div class="lib-name">PVS Sample</div>
+              <div class="lib-desc">独立示例 <code>com.spacetime.pvs.sample</code>，演示完整 PVS 烘培与运行时剔除流程；内页可跳转 GitHub。</div>
+            </div>
+            <div class="lib-tags">
+              <span class="lib-tag">C#</span>
+              <span class="lib-tag">URP</span>
+            </div>
+            <div class="lib-arrow" aria-hidden="true">→</div>
+          </a>
+        </div>
       </div>
     </div>
   </div>
