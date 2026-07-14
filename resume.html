@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="Cache-Control" content="no-cache, must-revalidate" />
+  <title>谢刘建 — Unity 核心程序简历亮点</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .resume-page {
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 2rem 2rem 5rem;
+    }
+
+    .resume-hero {
+      padding: 1.75rem;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--surface);
+    }
+
+    .resume-hero h1 {
+      font-size: 1.6rem;
+      line-height: 1.25;
+      margin-bottom: 0.5rem;
+    }
+
+    .resume-subtitle {
+      color: var(--accent);
+      font-size: 1rem;
+      font-weight: 700;
+    }
+
+    .resume-desc {
+      margin-top: 0.9rem;
+      color: var(--text-muted);
+      font-size: 0.95rem;
+    }
+
+    .resume-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 1rem;
+    }
+
+    .resume-tag {
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 0.25rem 0.7rem;
+      color: var(--text-muted);
+      background: rgba(88, 166, 255, 0.08);
+      font-size: 0.78rem;
+    }
+
+    .resume-section {
+      margin-top: 1.5rem;
+      padding: 1.35rem 1.5rem;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--surface);
+    }
+
+    .resume-section h2 {
+      font-size: 1.15rem;
+      margin-bottom: 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .resume-section p {
+      color: var(--text);
+      margin-bottom: 0.8rem;
+      line-height: 1.85;
+    }
+
+    .resume-section p:last-child {
+      margin-bottom: 0;
+    }
+
+    .resume-list {
+      display: grid;
+      gap: 0.7rem;
+      margin-top: 0.25rem;
+    }
+
+    .resume-item {
+      padding-left: 1rem;
+      border-left: 3px solid rgba(88, 166, 255, 0.45);
+      color: var(--text-muted);
+      line-height: 1.75;
+    }
+
+    .resume-item strong {
+      color: var(--text);
+      font-weight: 700;
+    }
+
+    .library-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 0.75rem;
+      margin-top: 0.3rem;
+    }
+
+    .library-card {
+      padding: 0.9rem 1rem;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: rgba(13, 17, 23, 0.35);
+    }
+
+    .library-name {
+      color: var(--accent);
+      font-size: 0.86rem;
+      font-weight: 700;
+      margin-bottom: 0.35rem;
+      word-break: break-word;
+    }
+
+    .library-desc {
+      color: var(--text-muted);
+      font-size: 0.84rem;
+      line-height: 1.65;
+    }
+
+    @media (max-width: 720px) {
+      .resume-page {
+        padding: 1rem 1rem 3rem;
+      }
+
+      .resume-hero,
+      .resume-section {
+        padding: 1.15rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <a class="logo" href="./">xieliujian</a>
+    <a class="back-link" href="./#libs-upm">返回 Unity 技术页</a>
+  </nav>
+
+  <main class="resume-page">
+    <section class="resume-hero">
+      <h1>谢刘建 — Unity 核心程序 / 引擎工具方向</h1>
+      <div class="resume-subtitle">Unity 场景渲染 · 大世界性能优化 · 场景工具链 · Package 化沉淀</div>
+      <p class="resume-desc">
+        长期从事 Unity 客户端、引擎工具、场景渲染和性能优化相关工作，具备 C++ 工具、Unity 编辑器扩展、移动端渲染优化、大世界场景管理和线上问题排查经验。
+      </p>
+      <p class="resume-desc">
+        AI 辅助开发：熟练使用 Claude Code、Codex 等工具辅助功能开发、Bug 定位、代码重构和技术文档整理，提升研发效率。
+      </p>
+      <div class="resume-tags">
+        <span class="resume-tag">Unity 引擎侧</span>
+        <span class="resume-tag">大世界场景</span>
+        <span class="resume-tag">PVS / LOD / Lightmap</span>
+        <span class="resume-tag">移动端性能</span>
+        <span class="resume-tag">编辑器工具</span>
+        <span class="resume-tag">UPM Package</span>
+      </div>
+    </section>
+
+    <section class="resume-section">
+      <h2>简历公司工作内容精简版</h2>
+      <p>
+        完整参与《斗罗大陆：史莱克学院》手游从研发、上线到线上维护阶段的 Unity 引擎侧和场景技术工作，主要负责大世界场景渲染、性能优化、场景工具链和线上引擎问题维护。参与场景流化、PVS/PerfectCulling、ImpostorTree、Lightmap 烘焙、Shader 变体、移动端性能分析、SLG 场景/玩法工具等模块，并沉淀贴花、PVS、场景树、沙盒场景、SLG 场景/玩法工具、场景烘焙、场景检测、场景合并、场景统计等 Unity Package 工具库。同时接触并梳理过 Unity 项目资源打包、热更新和高中低配性能分级配置相关流程。
+      </p>
+      <p>
+        担任 Unity 高级开发工程师，参与数百人规模无缝大世界 MMO 手游《古剑奇谭》研发，负责客户端系统功能开发；后续参与《超自然行动组》《龙与世界的尽头》等手游项目，负责客户端业务开发、玩法逻辑实现、性能优化和问题排查，具备大型网游公司多项目研发经验。
+      </p>
+    </section>
+
+    <section class="resume-section">
+      <h2>可写入简历的核心亮点</h2>
+      <div class="resume-list">
+        <div class="resume-item"><strong>完整项目周期：</strong>参与《斗罗大陆：史莱克学院》从研发、上线到线上维护阶段的 Unity 引擎侧和场景技术工作。</div>
+        <div class="resume-item"><strong>大世界场景体系：</strong>覆盖场景流化、PVS/PerfectCulling、LOD/HLOD、ImpostorTree、场景树、Lightmap 烘焙和场景合并等模块。</div>
+        <div class="resume-item"><strong>性能优化闭环：</strong>围绕移动端 GPU/CPU、DrawCall、顶点/面数、Shader 变体、内存和低配模式进行定位、测试和优化。</div>
+        <div class="resume-item"><strong>工具链建设：</strong>沉淀场景统计、性能分析、自动检测、烘焙检测、线上报告和飞书通知等编辑器/自动化工具。</div>
+        <div class="resume-item"><strong>工程化沉淀：</strong>将场景/渲染能力拆分为独立 Unity Package，提高模块复用、维护和跨项目迁移效率。</div>
+      </div>
+    </section>
+
+    <section class="resume-section">
+      <h2>独立设计的场景/渲染工具库</h2>
+      <div class="library-grid">
+        <div class="library-card">
+          <div class="library-name">com.lingren.decal</div>
+          <div class="library-desc">贴花系统，用于技能范围、场景标记和效果投射等渲染需求。</div>
+        </div>
+        <div class="library-card">
+          <div class="library-name">com.lingren.perfectculling / perfectcullingwrap</div>
+          <div class="library-desc">PVS 烘焙与运行时遮挡剔除封装，支持大场景可见性优化。</div>
+        </div>
+        <div class="library-card">
+          <div class="library-name">com.lingren.tree</div>
+          <div class="library-desc">场景树与远景树相关模块，统一管理远景显示、切换和性能优化。</div>
+        </div>
+        <div class="library-card">
+          <div class="library-name">com.lingren.sandboxscene</div>
+          <div class="library-desc">沙盒场景编辑与导出工具，包含规则 Tile、Chunk、LOD 和 SectorNode 导出流程。</div>
+        </div>
+        <div class="library-card">
+          <div class="library-name">com.lingren.scenebaker</div>
+          <div class="library-desc">场景烘焙工具包，覆盖 Lightmap、LOD0 独立烘焙、UV2 检测、索引校验等流程。</div>
+        </div>
+        <div class="library-card">
+          <div class="library-name">com.lingren.scenedetector</div>
+          <div class="library-desc">场景自动检测工具，支持 Jenkins 批处理、Excel 报告、在线报告分析和规则扩展。</div>
+        </div>
+        <div class="library-card">
+          <div class="library-name">com.lingren.scenemerge</div>
+          <div class="library-desc">场景合并与资源整理相关工具，用于大场景制作和优化流程。</div>
+        </div>
+        <div class="library-card">
+          <div class="library-name">com.lingren.tool.scenestats</div>
+          <div class="library-desc">场景统计与性能分析工具，辅助统计 DrawCall、顶点、面数、遮挡和渲染数据。</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="resume-section">
+      <h2>简历底部建议写法</h2>
+      <p>
+        个人技术沉淀：整理 Unity 引擎侧、场景技术、工具链相关模块与 Demo。技术页：
+        <a href="https://xieliujian.github.io/xieliujian_page/#libs-upm">https://xieliujian.github.io/xieliujian_page/#libs-upm</a>
+      </p>
+    </section>
+  </main>
+</body>
+</html>
